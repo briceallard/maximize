@@ -37,6 +37,7 @@ class Outlaws extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Maximize',
+      color: Colors.white,
       debugShowCheckedModeBanner: false,
       // theme: CustomTheme().themeData,
       home: SplashPage(),
