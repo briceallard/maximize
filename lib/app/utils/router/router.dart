@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:maximize/app/pages/home/home_page.dart';
+import 'package:maximize/app/pages/login/login_page.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/router/transitions.dart';
 
@@ -13,6 +14,8 @@ class Router {
     switch (settings.name) {
       case Pages.home:
         return _buildSlideLeftRoute(HomePage());
+      case Pages.login:
+        return _buildSlideBottomRoute(LoginPage());
       default:
         return null;
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/pages/home/home_page.dart';
+import 'package:maximize/app/pages/login/login_page.dart';
 import 'package:maximize/app/pages/splash/splash_page.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/repositories/db_repository.dart';
@@ -20,17 +21,17 @@ void main() => runApp(
             return StreamProvider<User>.value(
               initialData: User.initial(),
               value: DatabaseService.instance().getUser(auth.firebaseUser),
-              child: Outlaws(),
+              child: Maximize(),
             );
           },
         ),
       ),
     );
 
-class Outlaws extends StatelessWidget {
+class Maximize extends StatelessWidget {
   final Router _router;
 
-  Outlaws() : _router = Router();
+  Maximize() : _router = Router();
 
   // This widget is the root of your application.
   @override
@@ -40,7 +41,7 @@ class Outlaws extends StatelessWidget {
       color: Colors.white,
       debugShowCheckedModeBanner: false,
       // theme: CustomTheme().themeData,
-      home: SplashPage(),
+      home: Authorize(),
       onGenerateRoute: _router.getRoute,
       navigatorObservers: [_router.routeObserver],
     );
@@ -56,9 +57,13 @@ class Authorize extends StatelessWidget {
           case Status.Uninitialized:
             return SplashPage();
           case Status.Unauthenticated:
+            return LoginPage();
           case Status.Authenticating:
+            return LoginPage();
           case Status.Authenticated:
             return HomePage();
+          default:
+            return LoginPage();
         }
       },
     );
