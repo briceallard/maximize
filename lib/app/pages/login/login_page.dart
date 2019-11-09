@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Stack(
         fit: StackFit.expand,
@@ -118,10 +119,13 @@ class _LoginPageState extends State<LoginPage>
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * .30,
       alignment: Alignment.center,
-      child: Image(
-        fit: BoxFit.contain,
-        height: _animationLogo.value,
-        image: AssetImage(Resources.logo),
+      child: Hero(
+        tag: 'Logo',
+        child: Image(
+          fit: BoxFit.contain,
+          height: _animationLogo.value,
+          image: AssetImage(Resources.logo),
+        ),
       ),
     );
   }
@@ -239,7 +243,7 @@ class _LoginPageState extends State<LoginPage>
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(''),
+            onTap: () => Navigator.of(context).pushNamed(Pages.forgotPassword),
             child: Text(
               'Forgot Password?',
               style: TextStyle(
