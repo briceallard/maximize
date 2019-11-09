@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
@@ -25,6 +26,9 @@ class _LoginPageState extends State<LoginPage>
   AnimationController _animationController;
   Animation<double> _animationLogo;
   Animation<double> _animationButton;
+
+  PageController _pageController = PageController();
+  var currentPageIndex = 0.0;
 
   @override
   void initState() {
@@ -63,6 +67,12 @@ class _LoginPageState extends State<LoginPage>
     ));
 
     _obscurePassword = true;
+
+    _pageController.addListener(() {
+      setState(() {
+        currentPageIndex = _pageController.page;
+      });
+    });
   }
 
   @override
@@ -80,19 +90,188 @@ class _LoginPageState extends State<LoginPage>
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // _buildBackground(),
-          ListView(
-            children: <Widget>[
-              _buildLogo(),
-              _buildLoginForm(),
-              _signInButton(),
-              _signUpLink(),
-            ],
-          )
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              height: MediaQuery.of(context).size.height * .60,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Resources.splash_bg),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.0),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [Colors.white.withOpacity(0.0), Colors.white],
+                  stops: [0.0, 0.8],
+                  tileMode: TileMode.clamp,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.4,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              height: 64.0,
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _pageController.jumpToPage(0);
+                          });
+                        },
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            color: currentPageIndex == 0
+                                ? Colors.black
+                                : Colors.grey,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
+                        width: 25.0,
+                        height: 2.0,
+                        alignment: Alignment.center,
+                        color: currentPageIndex == 0
+                                ? Colors.green
+                                : Colors.transparent,
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: 25.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 0.7,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _pageController.jumpToPage(1);
+                          });
+                        },
+                        child: Text(
+                          'Signup',
+                          style: TextStyle(
+                            color: currentPageIndex == 1
+                                ? Colors.black
+                                : Colors.grey,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
+                        width: 25.0,
+                        height: 2.0,
+                        alignment: Alignment.center,
+                        color: currentPageIndex == 1
+                                ? Colors.green
+                                : Colors.transparent,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.47,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.53,
+              child: PageView(
+                controller: _pageController,
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  Container(
+                    color: Colors.red,
+                  ),
+                  Container(
+                    color: Colors.green,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 75.0,
+            left: 0.0,
+            right: 0.0,
+            child: Image(
+              fit: BoxFit.contain,
+              image: AssetImage(Resources.logo),
+              height: 175.0,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     key: _scaffoldKey,
+  //     backgroundColor: Colors.white,
+  //     body: Stack(
+  //       fit: StackFit.expand,
+  //       children: <Widget>[
+  //         // _buildBackground(),
+  //         ListView(
+  //           children: <Widget>[
+  //             _buildLogo(),
+  //             _buildLoginForm(),
+  //             _signInButton(),
+  //             _signUpLink(),
+  //           ],
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   // Widget _buildBackground() {
   //   return Container(
