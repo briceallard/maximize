@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -143,6 +144,39 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
+  // Widget _glassTextField() {
+  //   return Row(
+  //     mainAxisSize: MainAxisSize.max,
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: <Widget>[
+  //       Container(
+  //         width: MediaQuery.of(context).size.width * .80,
+  //         decoration: BoxDecoration(
+  //           color: Colors.white.withOpacity(0.2),
+  //           border: Border.all(color: Colors.black),
+  //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  //         ),
+  //         child: ClipRRect(
+  //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  //           child: BackdropFilter(
+  //             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+  //             child: TextFormField(
+  //               controller: emailController,
+  //               keyboardType: TextInputType.emailAddress,
+  //               decoration: InputDecoration(
+  //                 prefixIcon: Icon(Icons.email),
+  //                 isDense: true,
+  //                 labelText: 'Email Address',
+  //                 border: InputBorder.none,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget _emailTextField() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -210,7 +244,7 @@ class _LoginPageState extends State<LoginPage>
               'Forgot Password?',
               style: TextStyle(
                 fontSize: 14.0,
-                color: Colors.black,
+                color: Colors.grey,
               ),
             ),
           )
@@ -231,7 +265,7 @@ class _LoginPageState extends State<LoginPage>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.6),
-                blurRadius: 10.0,
+                blurRadius: 3.0,
                 offset: Offset(3.0, 3.0),
               ),
             ],
