@@ -94,6 +94,7 @@ class AuthRepository with ChangeNotifier {
 
       print('User $email log in: FAILED');
       print(e);
+      rethrow;
     }
   }
 

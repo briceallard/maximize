@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/pages/home/home_page.dart';
 import 'package:maximize/app/pages/login/login_page.dart';
@@ -8,25 +9,34 @@ import 'package:maximize/app/repositories/db_repository.dart';
 import 'package:maximize/app/utils/router/router.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<AuthRepository>.value(
-              value: AuthRepository.instance()),
-          ChangeNotifierProvider<DatabaseService>.value(
-              value: DatabaseService.instance()),
-        ],
-        child: Consumer(
-          builder: (BuildContext context, AuthRepository auth, _) {
-            return StreamProvider<User>.value(
-              initialData: User.initial(),
-              value: DatabaseService.instance().getUser(auth.firebaseUser),
-              child: Maximize(),
-            );
-          },
-        ),
+void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.black.withOpacity(0.0),
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  ));
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthRepository>.value(
+            value: AuthRepository.instance()),
+        ChangeNotifierProvider<DatabaseService>.value(
+            value: DatabaseService.instance()),
+      ],
+      child: Consumer(
+        builder: (BuildContext context, AuthRepository auth, _) {
+          return StreamProvider<User>.value(
+            initialData: User.initial(),
+            value: DatabaseService.instance().getUser(auth.firebaseUser),
+            child: Maximize(),
+          );
+        },
       ),
-    );
+    ),
+  );
+}
 
 class Maximize extends StatelessWidget {
   final Router _router;

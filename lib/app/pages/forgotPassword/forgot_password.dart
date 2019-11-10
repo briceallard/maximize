@@ -23,13 +23,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   void initState() {
     super.initState();
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.0),
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));
-
     _animationController = AnimationController(
       duration: Duration(milliseconds: 1000),
       vsync: this,
@@ -57,7 +50,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.black.withOpacity(0.0),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+
     return Scaffold(
+      primary: false,
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -75,20 +76,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
           child: Image(
             alignment: Alignment.center,
             image: AssetImage(Resources.logo),
-            height: 25.0,
+            height: 30.0,
           ),
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: <Widget>[
-          _buildTitle(),
-          _buildForgotText(),
-          SizedBox(height: 30.0),
-          _buildInstructionText(),
-          _buildLoginForm(),
-          _signInButton(),
-        ],
+      body: SafeArea(
+        top: true,
+        child: ListView(
+          padding: EdgeInsets.all(16.0),
+          children: <Widget>[
+            SizedBox(height: 20.0),
+            _buildTitle(),
+            _buildForgotText(),
+            SizedBox(height: 30.0),
+            _buildInstructionText(),
+            _buildLoginForm(),
+            _signInButton(),
+          ],
+        ),
       ),
     );
   }

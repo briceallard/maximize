@@ -1,13 +1,22 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:provider/provider.dart';
+
+class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Size get preferredSize => Size(0.0, 0.0);
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,13 +42,6 @@ class _LoginPageState extends State<LoginPage>
   @override
   void initState() {
     super.initState();
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.0),
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));
 
     _animationController = AnimationController(
       duration: Duration(milliseconds: 1000),
@@ -84,226 +86,203 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.black.withOpacity(0.0),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+
     return Scaffold(
       key: _scaffoldKey,
+      primary: false,
+      appBar: EmptyAppBar(),
       backgroundColor: Colors.white,
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              height: MediaQuery.of(context).size.height * .60,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Resources.splash_bg),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          children: <Widget>[
+            Container(
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [Colors.white.withOpacity(0.0), Colors.white],
-                  stops: [0.0, 0.8],
-                  tileMode: TileMode.clamp,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.4,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              height: 64.0,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _pageController.jumpToPage(0);
-                          });
-                        },
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: currentPageIndex == 0
-                                ? Colors.black
-                                : Colors.grey,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5.0),
-                        width: 25.0,
-                        height: 2.0,
-                        alignment: Alignment.center,
-                        color: currentPageIndex == 0
-                                ? Colors.green
-                                : Colors.transparent,
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: 25.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 0.7,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _pageController.jumpToPage(1);
-                          });
-                        },
-                        child: Text(
-                          'Signup',
-                          style: TextStyle(
-                            color: currentPageIndex == 1
-                                ? Colors.black
-                                : Colors.grey,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5.0),
-                        width: 25.0,
-                        height: 2.0,
-                        alignment: Alignment.center,
-                        color: currentPageIndex == 1
-                                ? Colors.green
-                                : Colors.transparent,
-                      )
-                    ],
-                  ),
+                  _buildBackground(),
+                  _buildBackgroundOverlay(),
+                  _buildToggleButtons(),
+                  _buildPageView(),
+                  _buildLogo(),
                 ],
               ),
             ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.47,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.53,
-              child: PageView(
-                controller: _pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  Container(
-                    color: Colors.red,
-                  ),
-                  Container(
-                    color: Colors.green,
-                  )
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 75.0,
-            left: 0.0,
-            right: 0.0,
-            child: Image(
-              fit: BoxFit.contain,
-              image: AssetImage(Resources.logo),
-              height: 175.0,
-              color: Colors.black,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     key: _scaffoldKey,
-  //     backgroundColor: Colors.white,
-  //     body: Stack(
-  //       fit: StackFit.expand,
-  //       children: <Widget>[
-  //         // _buildBackground(),
-  //         ListView(
-  //           children: <Widget>[
-  //             _buildLogo(),
-  //             _buildLoginForm(),
-  //             _signInButton(),
-  //             _signUpLink(),
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildBackground() {
+    return Positioned(
+      top: 0.0,
+      left: 0.0,
+      right: 0.0,
+      child: Container(
+        height: MediaQuery.of(context).size.height * .60,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Resources.splash_bg),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.0),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-  // Widget _buildBackground() {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       image: DecorationImage(
-  //         fit: BoxFit.cover,
-  //         image: AssetImage(Resources.splash_bg),
-  //       ),
-  //     ),
-  //     child: BackdropFilter(
-  //       filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           color: Colors.white.withOpacity(0.2),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildBackgroundOverlay() {
+    return Positioned(
+      bottom: 0.0,
+      left: 0.0,
+      right: 0.0,
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.center,
+            colors: [Colors.white.withOpacity(0.0), Colors.white],
+            stops: [0.0, 0.9],
+            tileMode: TileMode.clamp,
+          ),
+        ),
+      ),
+    );
+  }
 
-  Widget _buildLogo() {
+  Widget _buildToggleButtons() {
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.50,
+      left: 0.0,
+      right: 0.0,
+      child: Container(
+        height: 64.0,
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildLoginPageButton(),
+                _buildLoginPageButtonHighlight(),
+              ],
+            ),
+            _buildDivider(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildSignupPageButton(),
+                _buildSignupPageButtonHighlight(),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginPageButton() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _pageController.jumpToPage(0);
+        });
+      },
+      child: Text(
+        'Login',
+        style: TextStyle(
+          color: currentPageIndex == 0 ? Colors.black : Colors.grey,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginPageButtonHighlight() {
     return Container(
-      margin: EdgeInsets.only(top: 20.0),
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * .30,
+      margin: EdgeInsets.only(top: 5.0),
+      width: 25.0,
+      height: 2.0,
       alignment: Alignment.center,
-      child: Hero(
-        tag: 'Logo',
-        child: Image(
-          fit: BoxFit.contain,
-          height: _animationLogo.value,
-          image: AssetImage(Resources.logo),
+      color: currentPageIndex == 0 ? Colors.red[600] : Colors.transparent,
+    );
+  }
+
+  Widget _buildDivider() {
+    return Container(
+      height: 25.0,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 0.7,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignupPageButton() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _pageController.jumpToPage(1);
+        });
+      },
+      child: Text(
+        'Signup',
+        style: TextStyle(
+          color: currentPageIndex == 1 ? Colors.black : Colors.grey,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignupPageButtonHighlight() {
+    return Container(
+      margin: EdgeInsets.only(top: 5.0),
+      width: 25.0,
+      height: 2.0,
+      alignment: Alignment.center,
+      color: currentPageIndex == 1 ? Colors.red[600] : Colors.transparent,
+    );
+  }
+
+  Widget _buildPageView() {
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.60,
+      left: 0.0,
+      right: 0.0,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.40,
+        child: PageView(
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            _buildLoginForm(),
+            Container(
+              color: Colors.green,
+            )
+          ],
         ),
       ),
     );
@@ -313,13 +292,16 @@ class _LoginPageState extends State<LoginPage>
     return Form(
       key: _loginFormKey,
       child: Container(
-        margin: EdgeInsets.only(top: 50.0),
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        margin: EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _emailTextField(),
+            SizedBox(height: 20.0),
             _passwordTextField(),
+            SizedBox(height: 40.0),
+            _buildLoginButton(),
             _forgotPasswordLink(),
           ],
         ),
@@ -327,107 +309,222 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
-  // Widget _glassTextField() {
-  //   return Row(
-  //     mainAxisSize: MainAxisSize.max,
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: <Widget>[
-  //       Container(
-  //         width: MediaQuery.of(context).size.width * .80,
-  //         decoration: BoxDecoration(
-  //           color: Colors.white.withOpacity(0.2),
-  //           border: Border.all(color: Colors.black),
-  //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-  //         ),
-  //         child: ClipRRect(
-  //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-  //           child: BackdropFilter(
-  //             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-  //             child: TextFormField(
-  //               controller: emailController,
-  //               keyboardType: TextInputType.emailAddress,
-  //               decoration: InputDecoration(
-  //                 prefixIcon: Icon(Icons.email),
-  //                 isDense: true,
-  //                 labelText: 'Email Address',
-  //                 border: InputBorder.none,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _emailTextField() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
       children: <Widget>[
-        Icon(Icons.email),
-        Container(
-          margin: EdgeInsets.only(bottom: 20.0),
-          width: MediaQuery.of(context).size.width * .70,
-          child: TextFormField(
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              isDense: true,
-              labelText: 'Email Address',
-            ),
-            // style: CustomTheme().formField,
+        _buildEmailTextFieldTitle(),
+        _buildEmailTextFieldInput(),
+      ],
+    );
+  }
+
+  Widget _buildEmailTextFieldTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Username',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
     );
   }
 
+  Widget _buildEmailTextFieldInput() {
+    return Container(
+      height: 40.0,
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      margin: EdgeInsets.only(top: 5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black.withOpacity(0.05)),
+        borderRadius: BorderRadius.circular(5.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 5.0,
+            offset: Offset(1.0, 1.0),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: emailController,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          hasFloatingPlaceholder: false,
+          border: InputBorder.none,
+        ),
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    );
+  }
+
   Widget _passwordTextField() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
       children: <Widget>[
-        Icon(Icons.vpn_key),
-        Container(
-          width: MediaQuery.of(context).size.width * .70,
-          child: TextFormField(
-            controller: passwordController,
-            obscureText: _obscurePassword,
-            decoration: InputDecoration(
-              isDense: true,
-              labelText: 'Password',
-              suffixIcon: GestureDetector(
-                onTap: () => _toggleObscure(),
-                child: Icon(
-                  _obscurePassword
-                      ? FontAwesomeIcons.eye
-                      : FontAwesomeIcons.eyeSlash,
-                  color: Colors.black,
-                  size: 16.0,
-                ),
-              ),
-            ),
-            // style: CustomTheme().formField,
+        _buildPasswordTextFieldTitle(),
+        _buildPasswordTextFieldInput(),
+      ],
+    );
+  }
+
+  Widget _buildPasswordTextFieldTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Password',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPasswordTextFieldInput() {
+    return Container(
+      height: 40.0,
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      margin: EdgeInsets.only(top: 5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black.withOpacity(0.05)),
+        borderRadius: BorderRadius.circular(5.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 5.0,
+            offset: Offset(1.0, 1.0),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: passwordController,
+        obscureText: _obscurePassword,
+        decoration: InputDecoration(
+          hasFloatingPlaceholder: false,
+          border: InputBorder.none,
+          suffixIcon: GestureDetector(
+            onTap: () => _toggleObscure(),
+            child: Icon(
+              _obscurePassword
+                  ? FontAwesomeIcons.eye
+                  : FontAwesomeIcons.eyeSlash,
+              color: Colors.black,
+              size: 14.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: _obscurePassword ? 18.0 : 12.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Opacity(
+      opacity: _animationButton.value,
+      child: Center(
+        child: Container(
+          height: 40.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.red[600],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 5.0,
+                offset: Offset(2.0, 2.0),
+              ),
+            ],
+          ),
+          child: MaterialButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              child: Provider.of<AuthRepository>(context).status ==
+                      Status.Authenticating
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.5),
+                      child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'Log In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+            ),
+            onPressed: () async {
+              try {
+                await Provider.of<AuthRepository>(context)
+                    .signInWithEmailAndPassword(
+                  emailController.text,
+                  passwordController.text,
+                );
+
+                Navigator.of(context).pushNamed(Pages.home);
+              } catch (e) {
+                if (e.code == 'ERROR_USER_NOT_FOUND') {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      content: Text('Incorrect email or password.'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                } else {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      content: Text(e.message),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                }
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 
   Widget _forgotPasswordLink() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(Pages.forgotPassword),
             child: Text(
-              'Forgot Password?',
+              'Forgot your password?',
               style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
+                fontSize: 12.0,
+                color: Colors.black,
               ),
             ),
           )
@@ -436,85 +533,20 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
-  Widget _signInButton() {
-    return Opacity(
-      opacity: _animationButton.value,
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.only(top: 50.0, bottom: 15.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.amber[300],
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.6),
-                blurRadius: 3.0,
-                offset: Offset(3.0, 3.0),
-              ),
-            ],
-          ),
-          child: MaterialButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 60.0),
-              child: Provider.of<AuthRepository>(context).status ==
-                      Status.Authenticating
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 14.0),
-                      child: SizedBox(
-                        height: 25.0,
-                        width: 25.0,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          strokeWidth: 2.5,
-                        ),
-                      ),
-                    )
-                  : Text(
-                      'Login',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.w600),
-                    ),
-            ),
-            onPressed: () =>
-                //     Provider.of<AuthRepository>(context).signInWithEmailAndPassword(
-                //   emailController.text,
-                //   passwordController.text,
-                // ),
-                Navigator.of(context).pushNamed(Pages.home),
-          ),
+  Widget _buildLogo() {
+    return Positioned(
+      top: 100.0,
+      left: 0.0,
+      right: 0.0,
+      child: Hero(
+        tag: 'Logo',
+        child: Image(
+          fit: BoxFit.contain,
+          image: AssetImage(Resources.logo),
+          height: _animationLogo.value,
+          color: Colors.black,
         ),
       ),
-    );
-  }
-
-  Widget _signUpLink() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          'Don\'t have an account? ',
-          style: TextStyle(
-            color: Colors.grey,
-          ),
-        ),
-        GestureDetector(
-          onTap: () {},
-          child: Text(
-            'Sign up',
-            style: TextStyle(
-              color: Colors.amber[600],
-              fontWeight: FontWeight.w600,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        )
-      ],
     );
   }
 
