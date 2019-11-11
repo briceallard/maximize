@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:maximize/app/pages/forgotPassword/forgot_password.dart';
 import 'package:maximize/app/pages/home/home_page.dart';
 import 'package:maximize/app/pages/login/login_page.dart';
+import 'package:maximize/app/pages/register/register_page.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/router/transitions.dart';
 
@@ -19,6 +20,8 @@ class Router {
         return _buildSlideBottomRoute(LoginPage());
       case Pages.forgotPassword:
         return _buildSlideTopRoute(ForgotPasswordPage());
+      case Pages.register:
+        return _buildSlideLeftRoute(RegisterPage());
       default:
         return null;
     }

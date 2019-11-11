@@ -489,6 +489,13 @@ class _LoginPageState extends State<LoginPage>
                       duration: Duration(seconds: 3),
                     ),
                   );
+                } else if (e.message == 'Given String is empty or null') {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      content: Text('Email and Password must be valid.'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
                 } else {
                   _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -691,7 +698,7 @@ class _LoginPageState extends State<LoginPage>
                       ],
                     ),
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed(Pages.register),
           ),
         ),
       ),
