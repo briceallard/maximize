@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
+import 'package:maximize/app/utils/constants/constants.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:provider/provider.dart';
@@ -86,21 +88,14 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.0),
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
-
-    return Scaffold(
-      key: _scaffoldKey,
-      primary: false,
-      appBar: EmptyAppBar(),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        top: false,
-        child: ListView(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: Constants.systemTheme,
+      child: Scaffold(
+        key: _scaffoldKey,
+        primary: false,
+        appBar: EmptyAppBar(),
+        backgroundColor: Colors.white,
+        body: ListView(
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height,
@@ -210,7 +205,7 @@ class _LoginPageState extends State<LoginPage>
         'Login',
         style: TextStyle(
           color: currentPageIndex == 0 ? Colors.black : Colors.grey,
-          fontSize: 16.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -250,7 +245,7 @@ class _LoginPageState extends State<LoginPage>
         'Signup',
         style: TextStyle(
           color: currentPageIndex == 1 ? Colors.black : Colors.grey,
-          fontSize: 16.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -279,9 +274,7 @@ class _LoginPageState extends State<LoginPage>
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             _buildLoginForm(),
-            Container(
-              color: Colors.green,
-            )
+            _buildSignupForm(),
           ],
         ),
       ),
@@ -292,7 +285,7 @@ class _LoginPageState extends State<LoginPage>
     return Form(
       key: _loginFormKey,
       child: Container(
-        margin: EdgeInsets.only(top: 20.0),
+        margin: EdgeInsets.only(top: 10.0),
         padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,7 +319,7 @@ class _LoginPageState extends State<LoginPage>
           'Username',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 14.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -360,7 +353,7 @@ class _LoginPageState extends State<LoginPage>
         ),
         style: TextStyle(
           color: Colors.black,
-          fontSize: 12.0,
+          fontSize: 16.0,
           fontWeight: FontWeight.w400,
         ),
       ),
@@ -384,7 +377,7 @@ class _LoginPageState extends State<LoginPage>
           'Password',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 14.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -422,13 +415,13 @@ class _LoginPageState extends State<LoginPage>
                   ? FontAwesomeIcons.eye
                   : FontAwesomeIcons.eyeSlash,
               color: Colors.black,
-              size: 14.0,
+              size: 18.0,
             ),
           ),
         ),
         style: TextStyle(
           color: Colors.black,
-          fontSize: _obscurePassword ? 18.0 : 12.0,
+          fontSize: _obscurePassword ? 18.0 : 16.0,
           fontWeight: FontWeight.w400,
         ),
       ),
@@ -514,7 +507,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _forgotPasswordLink() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -525,6 +518,7 @@ class _LoginPageState extends State<LoginPage>
               style: TextStyle(
                 fontSize: 12.0,
                 color: Colors.black,
+                decoration: TextDecoration.underline,
               ),
             ),
           )
@@ -533,9 +527,235 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
+  Widget _buildSignupForm() {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _signUpWithGoogleButton(),
+          _buildSignUpDivider(),
+          _signUpWithEmailButton(),
+          _buildTermsText(),
+        ],
+      ),
+    );
+  }
+
+  Widget _signUpWithGoogleButton() {
+    return Opacity(
+      opacity: _animationButton.value,
+      child: Center(
+        child: Container(
+          height: 50.0,
+          width: MediaQuery.of(context).size.width * .70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Color.fromRGBO(66, 133, 244, 1.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 5.0,
+                offset: Offset(2.0, 2.0),
+              ),
+            ],
+          ),
+          child: MaterialButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              child: Provider.of<AuthRepository>(context).status ==
+                      Status.Authenticating
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.5),
+                      child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.google,
+                          color: Colors.white,
+                          size: 16.0,
+                        ),
+                        Text(
+                          'Sign Up with Google',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+            onPressed: () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpDivider() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: 20.0,
+          height: 2.0,
+          margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 10.0),
+          color: Colors.grey,
+        ),
+        Text(
+          'OR',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Container(
+          width: 20.0,
+          height: 2.0,
+          margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 10.0),
+          color: Colors.grey,
+        ),
+      ],
+    );
+  }
+
+  Widget _signUpWithEmailButton() {
+    return Opacity(
+      opacity: _animationButton.value,
+      child: Center(
+        child: Container(
+          height: 50.0,
+          width: MediaQuery.of(context).size.width * .70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.red[600],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 5.0,
+                offset: Offset(2.0, 2.0),
+              ),
+            ],
+          ),
+          child: MaterialButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              child: Provider.of<AuthRepository>(context).status ==
+                      Status.Authenticating
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.5),
+                      child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Icon(
+                          Icons.email,
+                          color: Colors.white,
+                          size: 22.0,
+                        ),
+                        Text(
+                          'Sign Up with Email',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+            onPressed: () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTermsText() {
+    return Container(
+      margin: EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 50.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text:
+                      'By tapping Sign up, you acknoledge that you have agreed to the ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Terms and Conditions',
+                  style: TextStyle(
+                    color: Colors.red[600],
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                TextSpan(
+                  text: ' and read the ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Privacy Policy',
+                  style: TextStyle(
+                    color: Colors.red[600],
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLogo() {
     return Positioned(
-      top: 100.0,
+      top: MediaQuery.of(context).size.height * .15,
       left: 0.0,
       right: 0.0,
       child: Hero(

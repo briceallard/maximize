@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
+import 'package:maximize/app/utils/constants/constants.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:provider/provider.dart';
@@ -50,49 +51,44 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.0),
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
-
-    return Scaffold(
-      primary: false,
-      key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Icon(
-            Icons.arrow_back,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: Constants.systemTheme,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          brightness: Brightness.light,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(Icons.arrow_back_ios),
             color: Colors.black,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          centerTitle: true,
+          title: Hero(
+            tag: 'Logo',
+            child: Image(
+              alignment: Alignment.center,
+              image: AssetImage(Resources.logo),
+              height: 30.0,
+            ),
           ),
         ),
-        centerTitle: true,
-        title: Hero(
-          tag: 'Logo',
-          child: Image(
-            alignment: Alignment.center,
-            image: AssetImage(Resources.logo),
-            height: 30.0,
+        body: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.all(16.0),
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              _buildTitle(),
+              _buildForgotText(),
+              SizedBox(height: 30.0),
+              _buildInstructionText(),
+              _buildLoginForm(),
+              _signInButton(),
+            ],
           ),
-        ),
-      ),
-      body: SafeArea(
-        top: true,
-        child: ListView(
-          padding: EdgeInsets.all(16.0),
-          children: <Widget>[
-            SizedBox(height: 20.0),
-            _buildTitle(),
-            _buildForgotText(),
-            SizedBox(height: 30.0),
-            _buildInstructionText(),
-            _buildLoginForm(),
-            _signInButton(),
-          ],
         ),
       ),
     );

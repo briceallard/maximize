@@ -11,28 +11,33 @@ import 'package:provider/provider.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.black.withOpacity(0.0),
+    statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
     systemNavigationBarColor: Colors.white,
     systemNavigationBarIconBrightness: Brightness.dark,
   ));
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthRepository>.value(
-            value: AuthRepository.instance()),
-        ChangeNotifierProvider<DatabaseService>.value(
-            value: DatabaseService.instance()),
-      ],
-      child: Consumer(
-        builder: (BuildContext context, AuthRepository auth, _) {
-          return StreamProvider<User>.value(
-            initialData: User.initial(),
-            value: DatabaseService.instance().getUser(auth.firebaseUser),
-            child: Maximize(),
-          );
-        },
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then(
+    (_) => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthRepository>.value(
+              value: AuthRepository.instance()),
+          ChangeNotifierProvider<DatabaseService>.value(
+              value: DatabaseService.instance()),
+        ],
+        child: Consumer(
+          builder: (BuildContext context, AuthRepository auth, _) {
+            return StreamProvider<User>.value(
+              initialData: User.initial(),
+              value: DatabaseService.instance().getUser(auth.firebaseUser),
+              child: Maximize(),
+            );
+          },
+        ),
       ),
     ),
   );
