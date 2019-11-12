@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
-import 'package:maximize/app/utils/constants/constants.dart';
-import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
+import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -52,7 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: Constants.systemTheme,
+      value: CustomTheme.systemTheme,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(

@@ -1,13 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
-import 'package:maximize/app/utils/constants/constants.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
+import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:provider/provider.dart';
 
 class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: Constants.systemTheme,
+      value: CustomTheme.systemTheme,
       child: Scaffold(
         key: _scaffoldKey,
         primary: false,
@@ -340,7 +339,7 @@ class _LoginPageState extends State<LoginPage>
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
             blurRadius: 5.0,
-            offset: Offset(1.0, 1.0),
+            offset: Offset(3.0, 3.0),
           ),
         ],
       ),
@@ -398,7 +397,7 @@ class _LoginPageState extends State<LoginPage>
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
             blurRadius: 5.0,
-            offset: Offset(1.0, 1.0),
+            offset: Offset(3.0, 3.0),
           ),
         ],
       ),

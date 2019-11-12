@@ -6,6 +6,7 @@ import 'package:maximize/app/pages/login/login_page.dart';
 import 'package:maximize/app/pages/splash/splash_page.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/repositories/db_repository.dart';
+import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/utils/router/router.dart';
 import 'package:provider/provider.dart';
 
@@ -53,6 +54,8 @@ class Maximize extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Maximize',
+      theme: CustomTheme.lightTheme,
+      darkTheme: CustomTheme.darkTheme,
       color: Colors.white,
       debugShowCheckedModeBanner: false,
       // theme: CustomTheme().themeData,
