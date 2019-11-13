@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
+import 'package:maximize/app/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -54,37 +55,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       value: CustomTheme.systemTheme,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          brightness: Brightness.light,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.black,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          centerTitle: true,
-          title: Hero(
-            tag: 'Logo',
-            child: Image(
-              alignment: Alignment.center,
-              image: AssetImage(Resources.logo),
-              height: 30.0,
-            ),
-          ),
-        ),
+        appBar: CustomAppBar(),
         body: SafeArea(
           child: ListView(
             padding: EdgeInsets.all(16.0),
             children: <Widget>[
-              SizedBox(height: 20.0),
               _buildTitle(),
               _buildForgotText(),
               SizedBox(height: 30.0),
               _buildInstructionText(),
-              _buildLoginForm(),
+              _buildResetForm(),
               _signInButton(),
             ],
           ),
@@ -94,42 +74,60 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   }
 
   Widget _buildTitle() {
-    return Text(
-      'Whoops!',
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 48.0,
-        fontWeight: FontWeight.w700,
+    return Container(
+      margin: EdgeInsets.only(top: 20.0, bottom: 5.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Forgot ',
+            style: TextStyle(
+              fontSize: 36.0,
+              color: Colors.red[600],
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          Text(
+            'Password',
+            style: TextStyle(
+              fontSize: 36.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildForgotText() {
     return Text(
-      'Forgot password? No problem!',
+      'No problem! Reset it now.',
       style: TextStyle(
-          color: Colors.amber[600],
-          fontSize: 14.0,
-          fontWeight: FontWeight.w400),
+        color: Colors.black,
+        fontSize: 16.0,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
   Widget _buildInstructionText() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30),
+      margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
       child: Text(
         'Enter the email address associated with the account and we\'ll send you a reset link!',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.black,
-          fontSize: 14.0,
-          fontWeight: FontWeight.w300,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
 
-  Widget _buildLoginForm() {
+  Widget _buildResetForm() {
     return Form(
       key: _formKey,
       child: Container(
@@ -138,33 +136,52 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _emailTextField(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Email Address',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              height: 50.0,
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              margin: EdgeInsets.only(top: 5.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 5.0,
+                    offset: Offset(3.0, 3.0),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hasFloatingPlaceholder: false,
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _emailTextField() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Icon(Icons.email),
-        Container(
-          margin: EdgeInsets.only(bottom: 20.0),
-          width: MediaQuery.of(context).size.width * .70,
-          child: TextFormField(
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              isDense: true,
-              labelText: 'Email Address',
-            ),
-            // style: CustomTheme().formField,
-          ),
-        ),
-      ],
     );
   }
 
@@ -173,15 +190,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          margin: EdgeInsets.only(top: 50.0, bottom: 15.0),
+          height: 50.0,
+          margin: EdgeInsets.only(top: 40.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.amber[300],
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.red[600],
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.6),
-                blurRadius: 3.0,
-                offset: Offset(3.0, 3.0),
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 5.0,
+                offset: Offset(2.0, 2.0),
               ),
             ],
           ),
@@ -189,27 +207,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 60.0),
-              child: Text(
-                'Reset',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontFamily: 'Montserrat',
-                    letterSpacing: 1.0,
-                    fontWeight: FontWeight.w600),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              child: Provider.of<AuthRepository>(context).status ==
+                      Status.Authenticating
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.5),
+                      child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'Reset',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
             ),
             onPressed: () async {
               try {
-                await Provider.of<AuthRepository>(context)
-                    .forgotPassword(emailController.text);
+                await Provider.of<AuthRepository>(context).forgotPassword(
+                  emailController.text,
+                );
               } catch (e) {
                 if (e.code == 'ERROR_USER_NOT_FOUND') {
                   _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
-                      content:
-                          Text('Email not found. Check email and try again!'),
+                      content: Text('That email address was not found.'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                } else if (e.message == 'Given String is empty or null') {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      content: Text('Email address must be valid.'),
                       duration: Duration(seconds: 3),
                     ),
                   );

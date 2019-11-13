@@ -55,8 +55,7 @@ class Maximize extends StatelessWidget {
     return MaterialApp(
       title: 'Maximize',
       theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
-      color: Colors.white,
+      // darkTheme: CustomTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       // theme: CustomTheme().themeData,
       home: Authorize(),

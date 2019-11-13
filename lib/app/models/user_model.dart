@@ -9,6 +9,8 @@ class User {
   final String uid;
   final String phoneNumber;
   final bool isAdmin;
+  final double currentWeight;
+  final double goalWeight;
   final Timestamp registerDate;
   final Timestamp lastLoggedIn;
   final List<dynamic> workoutHistory;
@@ -22,6 +24,8 @@ class User {
     @required this.uid,
     this.phoneNumber,
     this.isAdmin,
+    this.currentWeight,
+    this.goalWeight,
     @required this.registerDate,
     @required this.lastLoggedIn,
     this.workoutHistory,
@@ -36,6 +40,8 @@ class User {
         uid = data["uid"],
         phoneNumber = data["phoneNumber"],
         isAdmin = data['isAdmin'],
+        currentWeight = data['currentWeight'],
+        goalWeight = data['goalWeight'],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
         workoutHistory = data["workoutHistory"],
@@ -47,6 +53,8 @@ class User {
     assert(data['uid'] != null, "uid is missing");
     assert(data['phoneNumber'] != null, "phoneNumber is missing");
     assert(data['isAdmin'] != null, "isAdmin is missing");
+    assert(data['currentWeight'] != null, "currentWeight is missing");
+    assert(data['goalWeight'] != null, "goalWeight is missing");
     assert(data['registerDate'] != null, "registerDate is missing");
     assert(data['lastLoggedIn'] != null, "lastLoggedIn is missing");
     assert(data['workoutHistory'] != null, "workoutHistory is missing");
@@ -61,6 +69,8 @@ class User {
         uid = 'No user',
         phoneNumber = 'No user',
         isAdmin = false,
+        currentWeight = 0.0,
+        goalWeight = 0.0,
         registerDate = null,
         lastLoggedIn = null,
         workoutHistory = null,
@@ -74,6 +84,8 @@ class User {
         'uid': uid,
         'phoneNumber': phoneNumber ?? '(000)000-0000',
         'isAdmin': isAdmin ?? false,
+        'currentWeight': currentWeight ?? 0.0,
+        'goalWeight': goalWeight ?? 0.0,
         'registerDate': registerDate,
         'lastLoggedIn': lastLoggedIn,
         'workoutHistory': workoutHistory ?? [],

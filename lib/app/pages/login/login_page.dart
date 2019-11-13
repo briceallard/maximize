@@ -7,17 +7,8 @@ import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
+import 'package:maximize/app/widgets/empty_app_bar.dart';
 import 'package:provider/provider.dart';
-
-class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  Size get preferredSize => Size(0.0, 0.0);
-}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,7 +36,7 @@ class _LoginPageState extends State<LoginPage>
     super.initState();
 
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 2000),
       vsync: this,
     )
       ..addListener(() {
@@ -55,7 +46,7 @@ class _LoginPageState extends State<LoginPage>
 
     _animationLogo = Tween<double>(
       begin: 0.0,
-      end: 200.0,
+      end: 225.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOutBack,
@@ -93,7 +84,6 @@ class _LoginPageState extends State<LoginPage>
         key: _scaffoldKey,
         primary: false,
         appBar: EmptyAppBar(),
-        backgroundColor: Colors.white,
         body: ListView(
           children: <Widget>[
             Container(
@@ -304,126 +294,110 @@ class _LoginPageState extends State<LoginPage>
   Widget _emailTextField() {
     return Column(
       children: <Widget>[
-        _buildEmailTextFieldTitle(),
-        _buildEmailTextFieldInput(),
-      ],
-    );
-  }
-
-  Widget _buildEmailTextFieldTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Username',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Username',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        Container(
+          height: 50.0,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: EdgeInsets.only(top: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 5.0,
+                offset: Offset(3.0, 3.0),
+              ),
+            ],
+          ),
+          child: TextFormField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              hasFloatingPlaceholder: false,
+              border: InputBorder.none,
+            ),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildEmailTextFieldInput() {
-    return Container(
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      margin: EdgeInsets.only(top: 5.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.black.withOpacity(0.05)),
-        borderRadius: BorderRadius.circular(5.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 5.0,
-            offset: Offset(3.0, 3.0),
-          ),
-        ],
-      ),
-      child: TextFormField(
-        controller: emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          hasFloatingPlaceholder: false,
-          border: InputBorder.none,
-        ),
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
     );
   }
 
   Widget _passwordTextField() {
     return Column(
       children: <Widget>[
-        _buildPasswordTextFieldTitle(),
-        _buildPasswordTextFieldInput(),
-      ],
-    );
-  }
-
-  Widget _buildPasswordTextFieldTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Password',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Password',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildPasswordTextFieldInput() {
-    return Container(
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      margin: EdgeInsets.only(top: 5.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.black.withOpacity(0.05)),
-        borderRadius: BorderRadius.circular(5.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 5.0,
-            offset: Offset(3.0, 3.0),
+        Container(
+          height: 50.0,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: EdgeInsets.only(top: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 5.0,
+                offset: Offset(3.0, 3.0),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: TextFormField(
-        controller: passwordController,
-        obscureText: _obscurePassword,
-        decoration: InputDecoration(
-          hasFloatingPlaceholder: false,
-          border: InputBorder.none,
-          suffixIcon: GestureDetector(
-            onTap: () => _toggleObscure(),
-            child: Icon(
-              _obscurePassword
-                  ? FontAwesomeIcons.eye
-                  : FontAwesomeIcons.eyeSlash,
+          child: TextFormField(
+            controller: passwordController,
+            obscureText: _obscurePassword,
+            decoration: InputDecoration(
+              hasFloatingPlaceholder: false,
+              border: InputBorder.none,
+              suffixIcon: GestureDetector(
+                onTap: () => _toggleObscure(),
+                child: Icon(
+                  _obscurePassword
+                      ? FontAwesomeIcons.eye
+                      : FontAwesomeIcons.eyeSlash,
+                  color: Colors.black,
+                  size: 18.0,
+                ),
+              ),
+            ),
+            style: TextStyle(
               color: Colors.black,
-              size: 18.0,
+              fontSize: _obscurePassword ? 18.0 : 16.0,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: _obscurePassword ? 18.0 : 16.0,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      ],
     );
   }
 
@@ -432,7 +406,7 @@ class _LoginPageState extends State<LoginPage>
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          height: 40.0,
+          height: 50.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             color: Colors.red[600],
@@ -440,15 +414,15 @@ class _LoginPageState extends State<LoginPage>
               BoxShadow(
                 color: Colors.black.withOpacity(0.4),
                 blurRadius: 5.0,
-                offset: Offset(2.0, 2.0),
+                offset: Offset(3.0, 3.0),
               ),
             ],
           ),
           child: MaterialButton(
-            splashColor: Colors.transparent,
+            splashColor: Colors.black54,
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 40.0),
               child: Provider.of<AuthRepository>(context).status ==
                       Status.Authenticating
                   ? Padding(
@@ -524,6 +498,7 @@ class _LoginPageState extends State<LoginPage>
               style: TextStyle(
                 fontSize: 12.0,
                 color: Colors.black,
+                fontWeight: FontWeight.w600,
                 decoration: TextDecoration.underline,
               ),
             ),
@@ -563,12 +538,12 @@ class _LoginPageState extends State<LoginPage>
               BoxShadow(
                 color: Colors.black.withOpacity(0.4),
                 blurRadius: 5.0,
-                offset: Offset(2.0, 2.0),
+                offset: Offset(3.0, 3.0),
               ),
             ],
           ),
           child: MaterialButton(
-            splashColor: Colors.transparent,
+            splashColor: Colors.red[600].withOpacity(0.7),
             highlightColor: Colors.transparent,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -605,7 +580,12 @@ class _LoginPageState extends State<LoginPage>
                       ],
                     ),
             ),
-            onPressed: () {},
+            onPressed: () => _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Google Registration temporarily unavailable.'),
+                duration: Duration(seconds: 3),
+              ),
+            ),
           ),
         ),
       ),
@@ -655,12 +635,12 @@ class _LoginPageState extends State<LoginPage>
               BoxShadow(
                 color: Colors.black.withOpacity(0.4),
                 blurRadius: 5.0,
-                offset: Offset(2.0, 2.0),
+                offset: Offset(3.0, 3.0),
               ),
             ],
           ),
           child: MaterialButton(
-            splashColor: Colors.transparent,
+            splashColor: Colors.black54,
             highlightColor: Colors.transparent,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.0),
