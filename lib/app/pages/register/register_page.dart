@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/custom_app_bar.dart';
@@ -82,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage>
 
   Widget _buildTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 20.0, bottom: 5.0),
+      margin: EdgeInsets.only(top: 20.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -90,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage>
           Text(
             'Sign ',
             style: TextStyle(
-              fontSize: 36.0,
+              fontSize: 28.0,
               color: Colors.red[600],
               fontWeight: FontWeight.w800,
             ),
@@ -98,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage>
           Text(
             'Up',
             style: TextStyle(
-              fontSize: 36.0,
+              fontSize: 28.0,
               color: Colors.black,
               fontWeight: FontWeight.w800,
             ),
@@ -113,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage>
       'Start maximizing your performance today!',
       style: TextStyle(
         color: Colors.black,
-        fontSize: 16.0,
+        fontSize: 14.0,
         fontWeight: FontWeight.w500,
       ),
     );
@@ -129,15 +130,15 @@ class _RegisterPageState extends State<RegisterPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _firstNameTextField(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             _lastNameTextField(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             _emailTextField(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             _passwordTextField(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             _passwordConfirmTextField(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -151,17 +152,17 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'FIRST NAME',
+              'First Name',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -186,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: 16.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -202,17 +203,17 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'LAST NAME',
+              'Last Name',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -237,7 +238,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: 16.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -253,17 +254,17 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'EMAIL ADDRESS',
+              'Email Address',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -287,7 +288,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: 16.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -303,17 +304,17 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'PASSWORD',
+              'Password',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -342,13 +343,13 @@ class _RegisterPageState extends State<RegisterPage>
                         ? FontAwesomeIcons.eye
                         : FontAwesomeIcons.eyeSlash,
                     color: Colors.black,
-                    size: 18.0,
+                    size: 16.0,
                   ),
                 )),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 18.0 : 16.0,
-              fontWeight: FontWeight.w400,
+              fontSize: _obscurePassword ? 14.0 : 12.0,
+              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
         ),
@@ -363,17 +364,17 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'PASSWORD CONFIRM',
+              'Password Confirm',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -402,13 +403,13 @@ class _RegisterPageState extends State<RegisterPage>
                         ? FontAwesomeIcons.eye
                         : FontAwesomeIcons.eyeSlash,
                     color: Colors.black,
-                    size: 18.0,
+                    size: 16.0,
                   ),
                 )),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 18.0 : 16.0,
-              fontWeight: FontWeight.w400,
+              fontSize: _obscurePassword ? 14.0 : 12.0,
+              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
         ),
@@ -422,7 +423,7 @@ class _RegisterPageState extends State<RegisterPage>
       child: Container(
         alignment: Alignment.bottomRight,
         margin: EdgeInsets.only(right: 16.0),
-        height: 40.0,
+        height: MediaQuery.of(context).size.height * 0.04,
         width: 100.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
@@ -444,36 +445,18 @@ class _RegisterPageState extends State<RegisterPage>
               'Next',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            onPressed: () async {
-              try {
-                // Do some error checking for text contents here
-              } catch (e) {
-                if (e.code == 'ERROR_USER_NOT_FOUND') {
-                  _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      content: Text('Incorrect email or password.'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                } else if (e.message == 'Given String is empty or null') {
-                  _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      content: Text('Email and Password must be valid.'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                } else {
-                  _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      content: Text(e.message),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                }
+            onPressed: () {
+              if (_registerFormKey.currentState.validate()) {
+                _scaffoldKey.currentState.showSnackBar(
+                  SnackBar(
+                    content: Text('Invalid data submitted.'),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               }
             },
           ),

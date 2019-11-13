@@ -7,10 +7,10 @@ class User {
   final String displayName;
   final String email;
   final String uid;
-  final String phoneNumber;
   final bool isAdmin;
   final double currentWeight;
   final double goalWeight;
+
   final Timestamp registerDate;
   final Timestamp lastLoggedIn;
   final List<dynamic> workoutHistory;
@@ -22,7 +22,6 @@ class User {
     @required this.displayName,
     @required this.email,
     @required this.uid,
-    this.phoneNumber,
     this.isAdmin,
     this.currentWeight,
     this.goalWeight,
@@ -38,10 +37,9 @@ class User {
         displayName = data["displayName"],
         email = data["email"],
         uid = data["uid"],
-        phoneNumber = data["phoneNumber"],
-        isAdmin = data['isAdmin'],
-        currentWeight = data['currentWeight'],
-        goalWeight = data['goalWeight'],
+        isAdmin = data["isAdmin"],
+        currentWeight = data["currentWeight"],
+        goalWeight = data["goalWeight"],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
         workoutHistory = data["workoutHistory"],
@@ -51,7 +49,6 @@ class User {
     assert(data['displayName'] != null, "displayName is missing");
     assert(data['email'] != null, "email is missing");
     assert(data['uid'] != null, "uid is missing");
-    assert(data['phoneNumber'] != null, "phoneNumber is missing");
     assert(data['isAdmin'] != null, "isAdmin is missing");
     assert(data['currentWeight'] != null, "currentWeight is missing");
     assert(data['goalWeight'] != null, "goalWeight is missing");
@@ -62,12 +59,11 @@ class User {
   }
 
   User.initial()
-      : fName = 'No first name',
-        lName = 'No last name',
-        displayName = 'No user',
-        email = 'No user',
-        uid = 'No user',
-        phoneNumber = 'No user',
+      : fName = "No first name",
+        lName = "No last name",
+        displayName = "No user",
+        email = "No user",
+        uid = "No user",
         isAdmin = false,
         currentWeight = 0.0,
         goalWeight = 0.0,
@@ -82,7 +78,6 @@ class User {
         'displayName': displayName,
         'email': email,
         'uid': uid,
-        'phoneNumber': phoneNumber ?? '(000)000-0000',
         'isAdmin': isAdmin ?? false,
         'currentWeight': currentWeight ?? 0.0,
         'goalWeight': goalWeight ?? 0.0,

@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage>
 
     _animationLogo = Tween<double>(
       begin: 0.0,
-      end: 225.0,
+      end: 180.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOutBack,
@@ -152,12 +152,12 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildToggleButtons() {
     return Positioned(
-      top: MediaQuery.of(context).size.height * 0.50,
+      top: MediaQuery.of(context).size.height * 0.45,
       left: 0.0,
       right: 0.0,
       child: Container(
         height: 64.0,
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 50.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage>
         'Login',
         style: TextStyle(
           color: currentPageIndex == 0 ? Colors.black : Colors.grey,
-          fontSize: 20.0,
+          fontSize: 18.0,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage>
         'Signup',
         style: TextStyle(
           color: currentPageIndex == 1 ? Colors.black : Colors.grey,
-          fontSize: 20.0,
+          fontSize: 18.0,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -253,11 +253,11 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildPageView() {
     return Positioned(
-      top: MediaQuery.of(context).size.height * 0.60,
+      top: MediaQuery.of(context).size.height * 0.55,
       left: 0.0,
       right: 0.0,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.40,
+        height: MediaQuery.of(context).size.height * 0.45,
         child: PageView(
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
@@ -301,14 +301,14 @@ class _LoginPageState extends State<LoginPage>
               'Username',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -332,7 +332,7 @@ class _LoginPageState extends State<LoginPage>
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: 16.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -351,14 +351,14 @@ class _LoginPageState extends State<LoginPage>
               'Password',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           margin: EdgeInsets.only(top: 5.0),
           decoration: BoxDecoration(
@@ -386,14 +386,14 @@ class _LoginPageState extends State<LoginPage>
                       ? FontAwesomeIcons.eye
                       : FontAwesomeIcons.eyeSlash,
                   color: Colors.black,
-                  size: 18.0,
+                  size: 16.0,
                 ),
               ),
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 18.0 : 16.0,
-              fontWeight: FontWeight.w400,
+              fontSize: _obscurePassword ? 14.0 : 12.0,
+              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
         ),
@@ -406,7 +406,7 @@ class _LoginPageState extends State<LoginPage>
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.04,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             color: Colors.red[600],
@@ -440,7 +440,7 @@ class _LoginPageState extends State<LoginPage>
                       'Log In',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -487,7 +487,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _forgotPasswordLink() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      padding: EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -529,7 +529,7 @@ class _LoginPageState extends State<LoginPage>
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           width: MediaQuery.of(context).size.width * .70,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -546,7 +546,7 @@ class _LoginPageState extends State<LoginPage>
             splashColor: Colors.red[600].withOpacity(0.7),
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Provider.of<AuthRepository>(context).status ==
                       Status.Authenticating
                   ? Padding(
@@ -567,13 +567,13 @@ class _LoginPageState extends State<LoginPage>
                         Icon(
                           FontAwesomeIcons.google,
                           color: Colors.white,
-                          size: 16.0,
+                          size: 14.0,
                         ),
                         Text(
                           'Sign Up with Google',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -600,21 +600,21 @@ class _LoginPageState extends State<LoginPage>
         Container(
           width: 20.0,
           height: 2.0,
-          margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 10.0),
+          margin: EdgeInsets.symmetric(vertical: 30.0, horizontal: 10.0),
           color: Colors.grey,
         ),
         Text(
           'OR',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 16.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.w600,
           ),
         ),
         Container(
           width: 20.0,
           height: 2.0,
-          margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 10.0),
+          margin: EdgeInsets.symmetric(vertical: 30.0, horizontal: 10.0),
           color: Colors.grey,
         ),
       ],
@@ -626,7 +626,7 @@ class _LoginPageState extends State<LoginPage>
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.05,
           width: MediaQuery.of(context).size.width * .70,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -643,7 +643,7 @@ class _LoginPageState extends State<LoginPage>
             splashColor: Colors.black54,
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Provider.of<AuthRepository>(context).status ==
                       Status.Authenticating
                   ? Padding(
@@ -664,13 +664,13 @@ class _LoginPageState extends State<LoginPage>
                         Icon(
                           Icons.email,
                           color: Colors.white,
-                          size: 22.0,
+                          size: 16.0,
                         ),
                         Text(
                           'Sign Up with Email',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -687,7 +687,7 @@ class _LoginPageState extends State<LoginPage>
   Widget _buildTermsText() {
     return Container(
       margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 50.0),
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -698,10 +698,10 @@ class _LoginPageState extends State<LoginPage>
               children: [
                 TextSpan(
                   text:
-                      'By tapping Sign up, you acknoledge that you have agreed to the ',
+                      'By tapping Sign up, you acknowledge that you have agreed to the ',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -709,7 +709,7 @@ class _LoginPageState extends State<LoginPage>
                   text: 'Terms and Conditions',
                   style: TextStyle(
                     color: Colors.red[600],
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.w400,
                     decoration: TextDecoration.underline,
                   ),
@@ -718,7 +718,7 @@ class _LoginPageState extends State<LoginPage>
                   text: ' and read the ',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -726,7 +726,7 @@ class _LoginPageState extends State<LoginPage>
                   text: 'Privacy Policy',
                   style: TextStyle(
                     color: Colors.red[600],
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.w400,
                     decoration: TextDecoration.underline,
                   ),
@@ -741,7 +741,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildLogo() {
     return Positioned(
-      top: MediaQuery.of(context).size.height * .15,
+      top: MediaQuery.of(context).size.height * .12,
       left: 0.0,
       right: 0.0,
       child: Hero(

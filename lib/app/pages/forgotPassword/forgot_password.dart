@@ -65,7 +65,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
               SizedBox(height: 30.0),
               _buildInstructionText(),
               _buildResetForm(),
-              _signInButton(),
+              _resetButton(),
             ],
           ),
         ),
@@ -75,7 +75,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
 
   Widget _buildTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 20.0, bottom: 5.0),
+      margin: EdgeInsets.only(top: 20.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +83,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
           Text(
             'Forgot ',
             style: TextStyle(
-              fontSize: 36.0,
+              fontSize: 28.0,
               color: Colors.red[600],
               fontWeight: FontWeight.w800,
             ),
@@ -91,7 +91,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
           Text(
             'Password',
             style: TextStyle(
-              fontSize: 36.0,
+              fontSize: 28.0,
               color: Colors.black,
               fontWeight: FontWeight.w800,
             ),
@@ -106,7 +106,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       'No problem! Reset it now.',
       style: TextStyle(
         color: Colors.black,
-        fontSize: 16.0,
+        fontSize: 14.0,
         fontWeight: FontWeight.w500,
       ),
     );
@@ -143,14 +143,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                   'Email Address',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15.0,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ),
             Container(
-              height: 50.0,
+              height: MediaQuery.of(context).size.height * 0.05,
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               margin: EdgeInsets.only(top: 5.0),
               decoration: BoxDecoration(
@@ -174,7 +174,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                 ),
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -185,12 +185,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     );
   }
 
-  Widget _signInButton() {
+  Widget _resetButton() {
     return Opacity(
       opacity: _animationButton.value,
       child: Center(
         child: Container(
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.04,
           margin: EdgeInsets.only(top: 40.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -225,7 +225,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                       'Reset',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
