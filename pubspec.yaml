@@ -35,6 +35,8 @@ dependencies:
   uuid:
   provider:
   font_awesome_flutter:
+  device_preview:
+  email_validator:
 
 dev_dependencies:
   flutter_test:

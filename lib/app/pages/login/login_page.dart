@@ -327,6 +327,7 @@ class _LoginPageState extends State<LoginPage>
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               hasFloatingPlaceholder: false,
               border: InputBorder.none,
             ),
@@ -377,6 +378,7 @@ class _LoginPageState extends State<LoginPage>
             controller: passwordController,
             obscureText: _obscurePassword,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               hasFloatingPlaceholder: false,
               border: InputBorder.none,
               suffixIcon: GestureDetector(
@@ -392,8 +394,9 @@ class _LoginPageState extends State<LoginPage>
             ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 14.0 : 12.0,
-              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: _obscurePassword ? 1.0 : 0.0,
             ),
           ),
         ),

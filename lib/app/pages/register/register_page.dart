@@ -1,11 +1,15 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/pages/register/register_page2.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
+import 'package:maximize/app/utils/constants/pages.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -24,9 +28,15 @@ class _RegisterPageState extends State<RegisterPage>
   TextEditingController passwordConfirmController = TextEditingController();
 
   bool _obscurePassword = true;
+  String _firstNameError = '';
+  String _lastNameError = '';
+  String _emailError = '';
+  String _passwordError = '';
+  String _passwordConfirmError = '';
 
   AnimationController _animationController;
-  Animation<double> _animationButton;
+
+  final _user = User.initial();
 
   @override
   void initState() {
@@ -41,15 +51,12 @@ class _RegisterPageState extends State<RegisterPage>
       })
       ..forward();
 
-    _animationButton = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInCubic,
-    ));
-
     _obscurePassword = true;
+    _firstNameError = '';
+    _lastNameError = '';
+    _emailError = '';
+    _passwordError = '';
+    _passwordConfirmError = '';
   }
 
   @override
@@ -130,15 +137,10 @@ class _RegisterPageState extends State<RegisterPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _firstNameTextField(),
-            SizedBox(height: 20.0),
             _lastNameTextField(),
-            SizedBox(height: 20.0),
             _emailTextField(),
-            SizedBox(height: 20.0),
             _passwordTextField(),
-            SizedBox(height: 20.0),
             _passwordConfirmTextField(),
-            SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -179,9 +181,26 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           child: TextFormField(
             controller: firstNameController,
+            validator: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  _firstNameError = 'First name must not be empty';
+                });
+              } else if (value.length < 2) {
+                setState(() {
+                  _firstNameError = 'First name is not long enough';
+                });
+              } else {
+                setState(() {
+                  _firstNameError = '';
+                });
+              }
+            },
+            onSaved: (value) => setState(() => _user.fName = value),
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               hasFloatingPlaceholder: false,
               border: InputBorder.none,
             ),
@@ -189,6 +208,19 @@ class _RegisterPageState extends State<RegisterPage>
               color: Colors.black,
               fontSize: 14.0,
               fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _firstNameError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -230,9 +262,26 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           child: TextFormField(
             controller: lastNameController,
+            validator: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  _lastNameError = 'Last name must not be empty';
+                });
+              } else if (value.length < 2) {
+                setState(() {
+                  _lastNameError = 'Last name is not long enough';
+                });
+              } else {
+                setState(() {
+                  _lastNameError = '';
+                });
+              }
+            },
+            onSaved: (value) => setState(() => _user.lName = value),
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               hasFloatingPlaceholder: false,
               border: InputBorder.none,
             ),
@@ -240,6 +289,19 @@ class _RegisterPageState extends State<RegisterPage>
               color: Colors.black,
               fontSize: 14.0,
               fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _lastNameError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -281,8 +343,25 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           child: TextFormField(
             controller: emailController,
+            validator: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  _emailError = 'Email must not be empty';
+                });
+              } else if (!EmailValidator.validate(value)) {
+                setState(() {
+                  _emailError = 'Email must be formatted properly';
+                });
+              } else {
+                setState(() {
+                  _emailError = '';
+                });
+              }
+            },
+            onSaved: (value) => setState(() => _user.email = value),
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               hasFloatingPlaceholder: false,
               border: InputBorder.none,
             ),
@@ -290,6 +369,19 @@ class _RegisterPageState extends State<RegisterPage>
               color: Colors.black,
               fontSize: 14.0,
               fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _emailError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -331,25 +423,57 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           child: TextFormField(
             controller: passwordController,
+            validator: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  _passwordError = 'Password must not be empty';
+                });
+              } else if (value.length < 6) {
+                setState(() {
+                  _passwordError =
+                      'Password must be at least 6 characters or digits';
+                });
+              } else {
+                setState(() {
+                  _passwordError = '';
+                });
+              }
+            },
             obscureText: _obscurePassword,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-                hasFloatingPlaceholder: false,
-                border: InputBorder.none,
-                suffixIcon: GestureDetector(
-                  onTap: () => _toggleObscure(),
-                  child: Icon(
-                    _obscurePassword
-                        ? FontAwesomeIcons.eye
-                        : FontAwesomeIcons.eyeSlash,
-                    color: Colors.black,
-                    size: 16.0,
-                  ),
-                )),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+              hasFloatingPlaceholder: false,
+              border: InputBorder.none,
+              suffixIcon: GestureDetector(
+                onTap: () => _toggleObscure(),
+                child: Icon(
+                  _obscurePassword
+                      ? FontAwesomeIcons.eye
+                      : FontAwesomeIcons.eyeSlash,
+                  color: Colors.black,
+                  size: 16.0,
+                ),
+              ),
+            ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 14.0 : 12.0,
-              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: _obscurePassword ? 1.0 : 0.0,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _passwordError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -364,7 +488,7 @@ class _RegisterPageState extends State<RegisterPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Password Confirm',
+              'Confirm Password',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 14.0,
@@ -391,25 +515,52 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           child: TextFormField(
             controller: passwordConfirmController,
+            validator: (value) {
+              if (value != passwordController.text) {
+                setState(() {
+                  _passwordConfirmError = 'Passwords do not match';
+                });
+              } else {
+                setState(() {
+                  _passwordConfirmError = '';
+                });
+              }
+            },
             obscureText: _obscurePassword,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-                hasFloatingPlaceholder: false,
-                border: InputBorder.none,
-                suffixIcon: GestureDetector(
-                  onTap: () => _toggleObscure(),
-                  child: Icon(
-                    _obscurePassword
-                        ? FontAwesomeIcons.eye
-                        : FontAwesomeIcons.eyeSlash,
-                    color: Colors.black,
-                    size: 16.0,
-                  ),
-                )),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+              hasFloatingPlaceholder: false,
+              border: InputBorder.none,
+              suffixIcon: GestureDetector(
+                onTap: () => _toggleObscure(),
+                child: Icon(
+                  _obscurePassword
+                      ? FontAwesomeIcons.eye
+                      : FontAwesomeIcons.eyeSlash,
+                  color: Colors.black,
+                  size: 16.0,
+                ),
+              ),
+            ),
             style: TextStyle(
               color: Colors.black,
-              fontSize: _obscurePassword ? 14.0 : 12.0,
-              fontWeight: _obscurePassword ? FontWeight.w600 : FontWeight.w400,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: _obscurePassword ? 1.0 : 0.0,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _passwordConfirmError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -451,10 +602,26 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             onPressed: () {
               if (_registerFormKey.currentState.validate()) {
+                _registerFormKey.currentState.save();
+                _user.save();
+              } else {
                 _scaffoldKey.currentState.showSnackBar(
                   SnackBar(
-                    content: Text('Invalid data submitted.'),
-                    duration: Duration(seconds: 3),
+                    content: Text('There was an error.'),
+                  ),
+                );
+              }
+
+              if (_firstNameError == '' &&
+                  _lastNameError == '' &&
+                  _emailError == '' &&
+                  _passwordError == '' &&
+                  _passwordConfirmError == '') {
+                _user.displayName = _user.fName + ' ' + _user.lName;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterPageTwo(user: _user),
                   ),
                 );
               }

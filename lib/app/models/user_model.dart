@@ -2,19 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class User {
-  final String fName;
-  final String lName;
-  final String displayName;
-  final String email;
-  final String uid;
-  final bool isAdmin;
-  final double currentWeight;
-  final double goalWeight;
-
-  final Timestamp registerDate;
-  final Timestamp lastLoggedIn;
-  final List<dynamic> workoutHistory;
-  final List<dynamic> weightHistory;
+  String fName;
+  String lName;
+  String displayName;
+  String email;
+  String uid;
+  bool isAdmin;
+  double currentWeight;
+  double goalWeight;
+  Timestamp registerDate;
+  Timestamp lastLoggedIn;
+  List<dynamic> workoutHistory;
+  List<dynamic> weightHistory;
 
   User({
     @required this.fName,
@@ -86,4 +85,10 @@ class User {
         'workoutHistory': workoutHistory ?? [],
         'weightHistory': weightHistory ?? [],
       };
+
+    save() {
+      print('User saved as:');
+      print('$fName $lName');
+      print('$email');
+    }
 }

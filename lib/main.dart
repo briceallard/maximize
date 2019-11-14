@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maximize/app/models/user_model.dart';
@@ -23,31 +24,34 @@ void main() {
     DeviceOrientation.portraitDown,
   ]).then(
     (_) => runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<AuthRepository>.value(
-              value: AuthRepository.instance()),
-          ChangeNotifierProvider<DatabaseService>.value(
-              value: DatabaseService.instance()),
-        ],
-        child: Consumer(
-          builder: (BuildContext context, AuthRepository auth, _) {
-            return StreamProvider<User>.value(
-              initialData: User.initial(),
-              value: DatabaseService.instance().getUser(auth.firebaseUser),
-              child: Maximize(),
-            );
-          },
+      // DevicePreview(
+      //   builder: (context) => 
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<AuthRepository>.value(
+                value: AuthRepository.instance()),
+            ChangeNotifierProvider<DatabaseService>.value(
+                value: DatabaseService.instance()),
+          ],
+          child: Consumer(
+            builder: (BuildContext context, AuthRepository auth, _) {
+              return StreamProvider<User>.value(
+                initialData: User.initial(),
+                value: DatabaseService.instance().getUser(auth.firebaseUser),
+                child: MaximizeApp(),
+              );
+            },
+          ),
         ),
       ),
-    ),
+    // ),
   );
 }
 
-class Maximize extends StatelessWidget {
+class MaximizeApp extends StatelessWidget {
   final Router _router;
 
-  Maximize() : _router = Router();
+  MaximizeApp() : _router = Router();
 
   // This widget is the root of your application.
   @override
