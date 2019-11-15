@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:maximize/app/models/userMeasurements.dart';
+import 'package:maximize/app/models/userWeights.dart';
 import 'package:meta/meta.dart';
 
 class User {
@@ -13,7 +15,8 @@ class User {
   Timestamp registerDate;
   Timestamp lastLoggedIn;
   List<dynamic> workoutHistory;
-  List<dynamic> weightHistory;
+  List<UserWeights> weightHistory;
+  List<UserMeasurements> userMeasurements;
 
   User({
     @required this.fName,
@@ -28,6 +31,7 @@ class User {
     @required this.lastLoggedIn,
     this.workoutHistory,
     this.weightHistory,
+    this.userMeasurements,
   });
 
   User.fromMap(Map<String, dynamic> data)
@@ -42,7 +46,8 @@ class User {
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
         workoutHistory = data["workoutHistory"],
-        weightHistory = data["weightHistory"] {
+        weightHistory = data["weightHistory"],
+        userMeasurements = data["userMeasurements"] {
     assert(data['fName'] != null, "fName is missing");
     assert(data['lName'] != null, "lName is missing");
     assert(data['displayName'] != null, "displayName is missing");
@@ -55,6 +60,7 @@ class User {
     assert(data['lastLoggedIn'] != null, "lastLoggedIn is missing");
     assert(data['workoutHistory'] != null, "workoutHistory is missing");
     assert(data['weightHistory'] != null, "weightHistory is missing");
+    assert(data['userMeasurements'] != null, "userMeasurements is missing");
   }
 
   User.initial()
@@ -69,7 +75,8 @@ class User {
         registerDate = null,
         lastLoggedIn = null,
         workoutHistory = null,
-        weightHistory = null;
+        weightHistory = null,
+        userMeasurements = null;
 
   Map<String, dynamic> toMap() => {
         'fName': fName,
@@ -84,11 +91,12 @@ class User {
         'lastLoggedIn': lastLoggedIn,
         'workoutHistory': workoutHistory ?? [],
         'weightHistory': weightHistory ?? [],
+        'userMeasurements': userMeasurements ?? [],
       };
 
-    save() {
-      print('User saved as:');
-      print('$fName $lName');
-      print('$email');
-    }
+  save() {
+    print('User saved as:');
+    print('$fName $lName');
+    print('$email');
+  }
 }
