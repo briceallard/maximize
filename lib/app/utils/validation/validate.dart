@@ -54,4 +54,49 @@ class Validate {
       return '';
     }
   }
+
+  String validateWeight() {
+    try {
+      double weight = double.tryParse(value);
+
+      if (weight <= 0 || weight >= 500) {
+        return 'Weight must be between 0-500';
+      }
+    } catch (e) {
+      print(e.message);
+      return 'Value must be a number';
+    }
+
+    return '';
+  }
+
+  String validateHeightFeet() {
+    try {
+      double height = double.tryParse(value);
+
+      if(height <= 0 || height >= 12) {
+        return 'Impossible height';
+      }
+    } catch (e) {
+      print(e.message);
+      return 'Value must be a number';
+    }
+
+    return '';
+  }
+
+  String validateHeightInches() {
+    try {
+      double height = double.tryParse(value);
+
+      if(height <= 0 || height > 12) {
+        return 'Inches must be between 0-12';
+      }
+    } catch (e) {
+      print(e.message);
+      return 'Value must be a number';
+    }
+
+    return '';
+  }
 }

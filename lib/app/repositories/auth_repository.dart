@@ -25,30 +25,22 @@ class AuthRepository with ChangeNotifier {
   ///
   /// Required pass in arguments:
   /// [String] fName, [String] lName, [String] email, [String] password
-  Future<void> registerWithEmailAndPassword(
-      String fName, String lName, String email, String password) async {
+  Future<void> registerWithEmailAndPassword(User user, String password) async {
     try {
       _status = Status.Authenticating;
       notifyListeners();
 
       FirebaseUser firebaseUser = (await _auth.createUserWithEmailAndPassword(
-              email: email, password: password))
+              email: user.email, password: password))
           .user;
 
-      User user = User(
-        fName: fName,
-        lName: lName,
-        displayName: '$fName $lName',
-        email: email,
-        uid: firebaseUser.uid,
-        registerDate: Timestamp.now(),
-        lastLoggedIn: Timestamp.now(),
-      );
+      user.uid = firebaseUser.uid;
+      user.registerDate = Timestamp.now();
+      user.lastLoggedIn = Timestamp.now();
 
       try {
         await _db.createUser(firebaseUser, user);
-        print(
-            "$email successfully registered with New UID: ${firebaseUser.uid}");
+        user.save();
       } catch (e) {
         print(e.message);
       }
