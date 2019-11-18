@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/constants.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
+import 'package:maximize/app/widgets/user_avatar.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -21,7 +23,7 @@ class AppDrawer extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
-
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -32,15 +34,67 @@ class AppDrawer extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 25.0,
-                    backgroundImage: AssetImage(Resources.default_logo),
+                  GestureDetector(
+                    onTap: () => print('Profile Image selected'),
+                    child: UserAvatar(
+                      width: 30.0,
+                      fit: BoxFit.fitWidth,
+                      image: AssetImage(Resources.default_profile),
+                      backgroundColor: Colors.red,
+                      borderColor: Colors.black,
+                    ),
                   ),
-                  Text(Provider.of<User>(context).email)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        Provider.of<User>(context).displayName,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        Provider.of<User>(context).email,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
-              )
+              ),
+              Divider(color: Colors.grey, thickness: 1.0),
             ],
-          )
+          ),
+          Column(children: Constants.getDrawerOptions()),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                    onPressed: () =>
+                        Provider.of<AuthRepository>(context).signOut(),
+                    child: Text(
+                      'Sign Out',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
         // children: Constants.getDrawerOptions(),
       ),

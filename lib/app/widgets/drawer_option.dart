@@ -15,13 +15,6 @@ class DrawerOption extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       height: 35.0,
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: BorderSide(
-          color: Colors.black12,
-          width: 1.0,
-        ),
-      )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

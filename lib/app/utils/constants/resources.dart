@@ -1,7 +1,7 @@
 class Resources {
   static const String logo = 'assets/images/logo.png';
   static const String splash_bg = 'assets/images/splash_bg.jpeg';
-  static const String default_logo = 'assets/images/defualt_logo.png';
+  static const String default_profile = 'assets/images/default_profile.png';
 }
 
 class Helper {

@@ -5,19 +5,19 @@ class Constants {
   static List<Widget> getDrawerOptions() {
     return [
       DrawerOption(
-        title: 'Scores',
+        title: 'Current Progress',
         iconData: Icons.score,
       ),
       DrawerOption(
-        title: 'Assignments',
+        title: 'Workout History',
         iconData: Icons.assignment,
       ),
       DrawerOption(
-        title: 'Announcements',
+        title: 'Weight Tracker',
         iconData: Icons.announcement,
       ),
       DrawerOption(
-        title: 'Messages',
+        title: 'Measurements',
         iconData: Icons.message,
       ),
       DrawerOption(
