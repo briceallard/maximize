@@ -21,7 +21,7 @@ class _CustomFabState extends State<CustomFab>
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
-  double _fabHeight = 48.0;
+  double _fabHeight = 56.0;
 
   @override
   void initState() {
@@ -99,7 +99,6 @@ class _CustomFabState extends State<CustomFab>
   Widget weight() {
     return Container(
       child: FloatingActionButton(
-        mini: true,
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Weight',
@@ -118,7 +117,6 @@ class _CustomFabState extends State<CustomFab>
   Widget workout() {
     return Container(
       child: FloatingActionButton(
-        mini: true,
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Workout',
@@ -137,7 +135,6 @@ class _CustomFabState extends State<CustomFab>
   Widget image() {
     return Container(
       child: FloatingActionButton(
-        mini: true,
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Photo',
@@ -156,7 +153,6 @@ class _CustomFabState extends State<CustomFab>
   Widget toggle() {
     return Container(
       child: FloatingActionButton(
-        mini: true,
         elevation: 3.0,
         backgroundColor: _buttonColor.value,
         onPressed: animate,
