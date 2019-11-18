@@ -15,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _userDataFormKey = GlobalKey<FormState>();
   final PageController _pageController = PageController();
 
   TextEditingController firstNameController = TextEditingController();
@@ -203,39 +204,102 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _buildPageTwoRegisterForm() {
     return Form(
-      key: _registerFormKey,
+      key: _userDataFormKey,
       child: Container(
         margin: EdgeInsets.only(top: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 14.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _firstNameTextField(),
-            _lastNameTextField(),
-            _emailTextField(),
-            _passwordTextField(),
-            _passwordConfirmTextField(),
+            _buildAgeTextField(),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildAgeTextField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Date of Birth',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.05,
+          width: MediaQuery.of(context).size.width * 0.20,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: EdgeInsets.only(top: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 5.0,
+                offset: Offset(3.0, 3.0),
+              ),
+            ],
+          ),
+          child: TextFormField(
+            controller: firstNameController,
+            validator: (value) {
+              setState(() {
+                _firstNameError = Validate(value: value).validateFirstName();
+              });
+
+              return null;
+            },
+            onSaved: (value) => setState(() => _user.fName = value),
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.words,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+              hasFloatingPlaceholder: false,
+              border: InputBorder.none,
+              hintText: 'Month'
+            ),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        Container(
+          height: 20.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.topLeft,
+          child: Text(
+            _firstNameError,
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 10.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _firstNameTextField() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'First Name',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        Text(
+          'First Name',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
@@ -296,19 +360,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _lastNameTextField() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Last Name',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        Text(
+          'Last Name',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
@@ -369,19 +429,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _emailTextField() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Email Address',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        Text(
+          'Email Address',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
@@ -441,19 +497,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _passwordTextField() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Password',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        Text(
+          'Password',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
@@ -524,19 +576,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _passwordConfirmTextField() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Confirm Password',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        Text(
+          'Confirm Password',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
