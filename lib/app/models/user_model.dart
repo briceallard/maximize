@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:maximize/app/models/userMeasurements.dart';
-import 'package:maximize/app/models/userWeights.dart';
 import 'package:meta/meta.dart';
 
 class User {
