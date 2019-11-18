@@ -1,7 +1,8 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:maximize/app/utils/constants/resources.dart';
 
 class Validate {
-  String value;
+  final String value;
 
   Validate({this.value});
 
@@ -56,47 +57,34 @@ class Validate {
   }
 
   String validateWeight() {
-    try {
-      double weight = double.tryParse(value);
+    if (value.isEmpty) {
+      return 'Must not be empty';
+    } else if (!Helper.isDigit(value)) {
+      return 'Weight must be a number';
+    } else {
+      double weight = double.parse(value);
 
       if (weight <= 0 || weight >= 500) {
         return 'Weight must be between 0-500';
+      } else {
+        return '';
       }
-    } catch (e) {
-      print(e.message);
-      return 'Value must be a number';
     }
-
-    return '';
   }
 
-  String validateHeightFeet() {
-    try {
-      double height = double.tryParse(value);
+  String validateHeight() {
+    if (value.isEmpty) {
+      return 'Must not be empty';
+    } else if (!Helper.isDigit(value)) {
+      return 'Height must be a number';
+    } else {
+      double height = double.parse(value);
 
-      if(height <= 0 || height >= 12) {
-        return 'Impossible height';
+      if (height <= 0 || height >= 12) {
+        return 'Weight must be between 0-12';
+      } else {
+        return '';
       }
-    } catch (e) {
-      print(e.message);
-      return 'Value must be a number';
     }
-
-    return '';
-  }
-
-  String validateHeightInches() {
-    try {
-      double height = double.tryParse(value);
-
-      if(height <= 0 || height > 12) {
-        return 'Inches must be between 0-12';
-      }
-    } catch (e) {
-      print(e.message);
-      return 'Value must be a number';
-    }
-
-    return '';
   }
 }

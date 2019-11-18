@@ -14,4 +14,11 @@ class Helper {
 
     return 0.0;
   }
+
+  static bool isDigit(String value) {
+    if (value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
 }

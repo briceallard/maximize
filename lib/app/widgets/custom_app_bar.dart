@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomRegisterAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final double height;
   final List<Widget> actions;
 
-  CustomAppBar({Key key, this.height = 60, this.actions}) : super(key: key);
+  CustomRegisterAppBar({Key key, this.height = 60, this.actions})
+      : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(height);
@@ -31,6 +33,38 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: actions,
       actionsIconTheme: IconThemeData(color: Colors.black),
+    );
+  }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final double height;
+  final Function() onPressed;
+  final List<Widget> actions;
+
+  CustomAppBar({Key key, this.height = 60, this.onPressed, this.actions})
+      : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        onPressed: onPressed,
+        icon: Icon(Icons.menu),
+        color: Colors.black,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
+      centerTitle: true,
+      title: Image(
+        alignment: Alignment.center,
+        image: AssetImage(Resources.logo),
+        height: 30.0,
+      ),
+      actions: actions,
     );
   }
 }

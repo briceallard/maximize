@@ -72,6 +72,8 @@ class _LoginPageState extends State<LoginPage>
   @override
   void dispose() {
     _animationController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
 
     super.dispose();
   }
@@ -455,8 +457,6 @@ class _LoginPageState extends State<LoginPage>
                   emailController.text,
                   passwordController.text,
                 );
-
-                Navigator.of(context).pushNamed(Pages.home);
               } catch (e) {
                 if (e.code == 'ERROR_USER_NOT_FOUND') {
                   _scaffoldKey.currentState.showSnackBar(

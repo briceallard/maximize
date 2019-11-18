@@ -88,6 +88,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
+    _pageController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    currentWeightController.dispose();
+    goalWeightController.dispose();
+    heightFeetController.dispose();
+    heightInchesController.dispose();
+
     super.dispose();
   }
 
@@ -97,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
       value: CustomTheme.systemTheme,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: CustomAppBar(),
+        appBar: CustomRegisterAppBar(),
         body: SafeArea(
           child: PageView(
             controller: _pageController,
@@ -840,7 +851,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         Container(
           height: 20.0,
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
           alignment: Alignment.topLeft,
           child: Text(
             _dateOfBirthError,
@@ -924,7 +934,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 height: 20.0,
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.topLeft,
                 child: Text(
                   _currentWeightError,
@@ -1002,7 +1011,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 height: 20.0,
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.topLeft,
                 child: Text(
                   _goalWeightError,
@@ -1059,7 +1067,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       setState(() {
                         _heightFeetError =
-                            Validate(value: value).validateHeightFeet();
+                            Validate(value: value).validateHeight();
                       });
 
                       return null;
@@ -1087,7 +1095,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 height: 20.0,
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.topLeft,
                 child: Text(
                   _heightFeetError,
@@ -1135,7 +1142,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       setState(() {
                         _heightInchesError =
-                            Validate(value: value).validateHeightInches();
+                            Validate(value: value).validateHeight();
                       });
 
                       return null;
@@ -1170,7 +1177,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 height: 20.0,
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.topLeft,
                 child: Text(
                   _heightInchesError,
@@ -1268,21 +1274,42 @@ class _RegisterPageState extends State<RegisterPage> {
             minWidth: 120.0,
             splashColor: Colors.black38,
             highlightColor: Colors.transparent,
-            child: Text(
-              'Register',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: Provider.of<AuthRepository>(context).status ==
+                    Status.Authenticating
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.5),
+                    child: SizedBox(
+                      height: 20.0,
+                      width: 20.0,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                        strokeWidth: 2.5,
+                      ),
+                    ),
+                  )
+                : Text(
+                    'Register',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
             onPressed: () async {
+              if (_dobMonth == 'Month' ||
+                  _dobDay == 'Day' ||
+                  _dobYear == 'Year') {
+                setState(() {
+                  _dateOfBirthError = 'Must enter your date of birth';
+                });
+              } else {
+                setState(() {
+                  _dateOfBirthError = '';
+                });
+              }
+
               if (_userDataFormKey.currentState.validate()) {
-                if (_dobMonth.isNotEmpty &&
-                    _dobDay.isNotEmpty &&
-                    _dobYear.isNotEmpty) {
-                  _userDataFormKey.currentState.save();
-                }
+                _userDataFormKey.currentState.save();
               }
 
               if (_dateOfBirthError == '' &&
@@ -1290,9 +1317,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   _goalWeightError == '' &&
                   _heightFeetError == '' &&
                   _heightInchesError == '') {
-                _user.displayName = _user.fName + ' ' + _user.lName;
-                _user.sex = _isMale ? 'Male' : 'Female';
-                _user.save();
+                if (_userDataFormKey.currentState.validate()) {
+                  _userDataFormKey.currentState.save();
+                  _user.displayName = _user.fName + ' ' + _user.lName;
+                  _user.sex = _isMale ? 'Male' : 'Female';
+                  _user.save();
+                }
 
                 // Submit registration
                 try {

@@ -54,7 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       value: CustomTheme.systemTheme,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: CustomAppBar(),
+        appBar: CustomRegisterAppBar(),
         body: SafeArea(
           child: ListView(
             padding: EdgeInsets.all(16.0),
