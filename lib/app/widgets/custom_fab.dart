@@ -99,6 +99,7 @@ class _CustomFabState extends State<CustomFab>
   Widget weight() {
     return Container(
       child: FloatingActionButton(
+        heroTag: 'Btn1',
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Weight',
@@ -117,6 +118,7 @@ class _CustomFabState extends State<CustomFab>
   Widget workout() {
     return Container(
       child: FloatingActionButton(
+        heroTag: 'Btn2',
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Workout',
@@ -135,6 +137,7 @@ class _CustomFabState extends State<CustomFab>
   Widget image() {
     return Container(
       child: FloatingActionButton(
+        heroTag: 'Btn3',
         elevation: 3.0,
         onPressed: null,
         tooltip: 'Photo',
@@ -153,6 +156,7 @@ class _CustomFabState extends State<CustomFab>
   Widget toggle() {
     return Container(
       child: FloatingActionButton(
+        heroTag: 'Btn4',
         elevation: 3.0,
         backgroundColor: _buttonColor.value,
         onPressed: animate,

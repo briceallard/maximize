@@ -7,6 +7,10 @@ import 'package:maximize/app/widgets/user_avatar.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  AppDrawer({@required this.scaffoldKey});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,8 +84,10 @@ class AppDrawer extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FlatButton(
-                    onPressed: () =>
-                        Provider.of<AuthRepository>(context).signOut(),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      await Provider.of<AuthRepository>(context).signOut();
+                    },
                     child: Text(
                       'Sign Out',
                       style: TextStyle(

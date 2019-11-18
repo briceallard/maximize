@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         appBar: CustomAppBar(
           onPressed: () => _scaffoldKey.currentState.openDrawer(),
         ),
-        drawer: AppDrawer(),
+        drawer: AppDrawer(scaffoldKey: _scaffoldKey),
         floatingActionButton: CustomFab(),
         body: SafeArea(
           child: Center(

@@ -23,10 +23,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         highlightColor: Colors.transparent,
       ),
       centerTitle: true,
-      title: Image(
-        alignment: Alignment.center,
-        image: AssetImage(Resources.logo),
-        height: 30.0,
+      title: Hero(
+        tag: 'Logo',
+        child: Image(
+          alignment: Alignment.center,
+          image: AssetImage(Resources.logo),
+          height: 30.0,
+        ),
       ),
       actions: actions,
     );

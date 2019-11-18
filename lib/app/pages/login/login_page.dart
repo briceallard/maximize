@@ -457,8 +457,6 @@ class _LoginPageState extends State<LoginPage>
                   emailController.text,
                   passwordController.text,
                 );
-
-                Navigator.of(context).pushNamed(Pages.home);
               } catch (e) {
                 if (e.code == 'ERROR_USER_NOT_FOUND') {
                   _scaffoldKey.currentState.showSnackBar(
@@ -477,7 +475,7 @@ class _LoginPageState extends State<LoginPage>
                 } else {
                   _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
-                      content: Text(e.message),
+                      content: Text(e),
                       duration: Duration(seconds: 3),
                     ),
                   );
