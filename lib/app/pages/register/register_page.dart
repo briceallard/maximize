@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
@@ -31,6 +32,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String _emailError = '';
   String _passwordError = '';
   String _passwordConfirmError = '';
+  String _dobMonth = 'Month';
+  String _dobDay = 'Day';
+  String _dobYear = 'Year';
 
   var currentPageIndex = 0.0;
 
@@ -53,6 +57,9 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailError = '';
     _passwordError = '';
     _passwordConfirmError = '';
+    _dobMonth = 'Month';
+    _dobDay = 'Day';
+    _dobYear = 'Year';
   }
 
   @override
@@ -230,47 +237,126 @@ class _RegisterPageState extends State<RegisterPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.05,
-          width: MediaQuery.of(context).size.width * 0.20,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          margin: EdgeInsets.only(top: 5.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black.withOpacity(0.2)),
-            borderRadius: BorderRadius.circular(5.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 5.0,
-                offset: Offset(3.0, 3.0),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.21,
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              margin: EdgeInsets.only(top: 5.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 5.0,
+                    offset: Offset(3.0, 3.0),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: TextFormField(
-            controller: firstNameController,
-            validator: (value) {
-              setState(() {
-                _firstNameError = Validate(value: value).validateFirstName();
-              });
-
-              return null;
-            },
-            onSaved: (value) => setState(() => _user.fName = value),
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-              hasFloatingPlaceholder: false,
-              border: InputBorder.none,
-              hintText: 'Month'
+              child: GestureDetector(
+                onTap: () {},
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    _dobMonth,
+                    style: TextStyle(
+                      color:
+                          _dobMonth == 'Month' ? Colors.grey : Colors.red[600],
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.21,
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              margin: EdgeInsets.only(top: 5.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 5.0,
+                    offset: Offset(3.0, 3.0),
+                  ),
+                ],
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  DatePicker.showDatePicker(
+                    context,
+                    showTitleActions: true,
+                    minTime: DateTime(1930, 1, 1),
+                    maxTime: DateTime.now(),
+                    onChanged: (date) {
+                      print('change $date');
+                    },
+                    onConfirm: (date) {
+                      print('confirm $date');
+                    },
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.en,
+                  );
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    _dobDay,
+                    style: TextStyle(
+                      color: _dobDay == 'Day' ? Colors.grey : Colors.red[600],
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ),
-          ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.37,
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              margin: EdgeInsets.only(top: 5.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 5.0,
+                    offset: Offset(3.0, 3.0),
+                  ),
+                ],
+              ),
+              child: GestureDetector(
+                onTap: () {},
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    _dobYear,
+                    style: TextStyle(
+                      color: _dobYear == 'Year' ? Colors.grey : Colors.red[600],
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         Container(
           height: 20.0,
