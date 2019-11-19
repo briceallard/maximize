@@ -9,10 +9,10 @@ class WeightEntry {
 
   Map<String, dynamic> toMap() => {
         'weight': weight,
-        'timestamp': date.millisecondsSinceEpoch,
+        'date': date.millisecondsSinceEpoch,
       };
 
   WeightEntry.fromMap(Map<String, dynamic> map)
       : weight = map['weight'],
-        date = new Timestamp.fromMillisecondsSinceEpoch(map['timestamp']);
+        date = new Timestamp.fromMillisecondsSinceEpoch(map['date']);
 }

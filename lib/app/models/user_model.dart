@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:maximize/app/models/measurement_entry.dart';
 import 'package:maximize/app/models/weight_entry.dart';
+import 'package:maximize/app/models/workout_entry.dart';
 import 'package:meta/meta.dart';
 
 class User {
@@ -14,32 +16,37 @@ class User {
   double height;
   Timestamp registerDate;
   Timestamp lastLoggedIn;
-  List<dynamic> workoutHistory;
+  List<WorkoutEntry> workoutHistory;
   List<WeightEntry> weightHistory;
-  List<dynamic> userMeasurements;
+  List<MeasurementEntry> measurementHistory;
 
   User({
     @required this.fName,
     @required this.lName,
     @required this.displayName,
     @required this.email,
-    this.sex,
+    @required this.sex,
     @required this.uid,
     this.isAdmin,
     this.goalWeight,
     this.height,
-    @required this.registerDate,
-    @required this.lastLoggedIn,
+    this.registerDate,
+    this.lastLoggedIn,
     this.workoutHistory,
     this.weightHistory,
-    this.userMeasurements,
+    this.measurementHistory,
   });
 
-  double get currentWeight => weightHistory[weightHistory.length - 1].weight;
+  WorkoutEntry get mostRecentWorkout =>
+      workoutHistory[workoutHistory.length - 1];
+
+  WeightEntry get currentWeight => weightHistory[weightHistory.length - 1];
+
+  MeasurementEntry get currentMeasurement =>
+      measurementHistory[measurementHistory.length - 1];
 
   User.fromMap(Map<String, dynamic> data)
-      : fName = data[
-            "fName"], // this is where it's throwing, because it isn't being stored in the database ... it might be the authrepository, whoever is calling this is passing null
+      : fName = data["fName"],
         lName = data["lName"],
         displayName = data["displayName"],
         email = data["email"],
@@ -50,10 +57,13 @@ class User {
         height = data["height"],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
-        workoutHistory = data["workoutHistory"],
-        weightHistory =
-            User.weightHistoryListOfMapsToList(data["weightHistory"]),
-        userMeasurements = data["userMeasurements"] {
+        workoutHistory = User.workoutHistoryListOfMapsToList(
+          data["workoutHistory"],
+        ),
+        weightHistory = User.weightHistoryListOfMapsToList(
+          data["weightHistory"],
+        ),
+        measurementHistory = data["measurementHistory"] {
     assert(data['fName'] != null, "fName is missing");
     assert(data['lName'] != null, "lName is missing");
     assert(data['displayName'] != null, "displayName is missing");
@@ -67,18 +77,26 @@ class User {
     assert(data['lastLoggedIn'] != null, "lastLoggedIn is missing");
     assert(data['workoutHistory'] != null, "workoutHistory is missing");
     assert(data['weightHistory'] != null, "weightHistory is missing");
-    assert(data['userMeasurements'] != null, "userMeasurements is missing");
+    assert(data['measurementHistory'] != null, "measurementHistory is missing");
   }
 
-  // you start with a list of linkedhashmaps
-  // go through the list, convert to a regular map, then use that map to create a weight entry
-  // now you have an iterable of dynamic
-  // convert the iterable entry to a real list
-  // cast it from list<dynamic> to list<WeightEntry>
+  /// Starting with a [LinkedHashMap], iterate through the list, converting to
+  /// a regular [Map] which is used to create an iterable [List<dynamic>].
+  /// Lastly, cast the dynamic list to a [List<WeightEntry>].
+  static List<WorkoutEntry> workoutHistoryListOfMapsToList(map) => map
+      .map((wh) => WorkoutEntry.fromMap(Map<String, dynamic>.from(wh)))
+      .toList()
+      .cast<WorkoutEntry>();
+
   static List<WeightEntry> weightHistoryListOfMapsToList(map) => map
       .map((wh) => WeightEntry.fromMap(Map<String, dynamic>.from(wh)))
       .toList()
       .cast<WeightEntry>();
+
+  static List<MeasurementEntry> measurementHistoryListOfMapsToList(map) => map
+      .map((mh) => MeasurementEntry.fromMap(Map<String, dynamic>.from(mh)))
+      .toList()
+      .cast<MeasurementEntry>();
 
   User.initial()
       : fName = "No first name",
@@ -94,7 +112,7 @@ class User {
         lastLoggedIn = Timestamp.now(),
         workoutHistory = [],
         weightHistory = [],
-        userMeasurements = [];
+        measurementHistory = [];
 
   Map<String, dynamic> toMap() => {
         'fName': fName,
@@ -108,25 +126,26 @@ class User {
         'height': height ?? 0.0,
         'registerDate': registerDate,
         'lastLoggedIn': lastLoggedIn,
-        'workoutHistory': workoutHistory ?? [],
+        'workoutHistory': workoutHistory.map((wh) => wh.toMap()).toList(),
         'weightHistory': weightHistory.map((wh) => wh.toMap()).toList(),
-        'userMeasurements': userMeasurements ?? [],
+        'measurementHistory':
+            measurementHistory.map((mh) => mh.toMap()).toList(),
       };
 
   save() {
-    print('User saved as:');
+    print('User saved as - ');
     print('Name: $fName $lName');
     print('Email: $email');
     print('Sex: $sex');
     print('UID: $uid');
     print('Admin: $isAdmin');
-    print('Current Weight: $currentWeight');
+    print('Current Weight: ${currentWeight.weight}');
     print('Goal Weight: $goalWeight');
     print('Current Height: $height');
     print('Register Date: $registerDate');
     print('Last Logged In: $lastLoggedIn');
     print('Workout History: $workoutHistory');
     print('Weight History: $weightHistory');
-    print('User Measurements: $userMeasurements');
+    print('User Measurements: $measurementHistory');
   }
 }
