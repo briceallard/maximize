@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/constants.dart';
@@ -7,9 +8,9 @@ import 'package:maximize/app/widgets/user_avatar.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  AppDrawer({@required this.scaffoldKey});
+  AppDrawer({@required scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +32,27 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
-              Image(
-                fit: BoxFit.contain,
-                height: MediaQuery.of(context).size.height * 0.15,
-                image: AssetImage(Resources.logo),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0),
+                child: Image(
+                  fit: BoxFit.contain,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  image: AssetImage(Resources.logo),
+                ),
               ),
               Row(
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () => print('Profile Image selected'),
-                    child: UserAvatar(
-                      width: 30.0,
-                      fit: BoxFit.fitWidth,
-                      image: AssetImage(Resources.default_profile),
-                      backgroundColor: Colors.red,
-                      borderColor: Colors.black,
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 4.0, left: 8.0),
+                    child: GestureDetector(
+                      onTap: () => print('Profile Image selected'),
+                      child: UserAvatar(
+                        width: 30.0,
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage(Resources.default_profile),
+                        backgroundColor: Colors.red,
+                        borderColor: Colors.black,
+                      ),
                     ),
                   ),
                   Column(
@@ -81,22 +88,30 @@ class AppDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: FlatButton(
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      await Provider.of<AuthRepository>(context).signOut();
-                    },
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w400,
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(FontAwesomeIcons.cog),
+                      iconSize: 20.0,
+                    ),
+                    FlatButton(
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        await Provider.of<AuthRepository>(context).signOut();
+                      },
+                      child: Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

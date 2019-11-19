@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/app_drawer.dart';
 import 'package:maximize/app/widgets/custom_appbar.dart';
 import 'package:maximize/app/widgets/custom_fab.dart';
-import 'package:maximize/app/widgets/user_avatar.dart';
 
 class HomePage extends StatefulWidget {
   @override

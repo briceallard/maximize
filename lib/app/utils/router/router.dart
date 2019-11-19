@@ -15,7 +15,7 @@ class Router {
   Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
       case Pages.home:
-        return _buildSlideLeftRoute(HomePage());
+        return _buildSlideRightRoute(HomePage());
       case Pages.login:
         return _buildSlideBottomRoute(LoginPage());
       case Pages.forgotPassword:
