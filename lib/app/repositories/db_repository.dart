@@ -27,11 +27,12 @@ class DatabaseService with ChangeNotifier {
 
   Future<void> createUser(FirebaseUser fbUser, User user) async {
     try {
+      print("asdasdasdasd");
       await _db.collection('users').document(fbUser.uid).setData(user.toMap());
 
       print('${user.fName} ${user.lName} successully added to Database!');
     } catch (e) {
-      print(e.message);
+      print(e);
       rethrow;
     }
   }

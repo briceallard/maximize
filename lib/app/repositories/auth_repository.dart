@@ -40,11 +40,11 @@ class AuthRepository with ChangeNotifier {
 
       try {
         await _db.createUser(firebaseUser, user);
-        user.save();
       } catch (e) {
         print(e.message);
       }
 
+      user.save();
       _status = Status.Unauthenticated;
     } catch (e) {
       _status = Status.Unauthenticated;

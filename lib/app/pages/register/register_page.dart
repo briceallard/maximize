@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/models/weight_entry.dart';
 import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
@@ -53,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   var currentPageIndex = 0.0;
 
-  final _user = User.initial();
+  User _user;
 
   @override
   void initState() {
@@ -104,6 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    _user = Provider.of<User>(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
       child: Scaffold(
@@ -112,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
         body: SafeArea(
           child: PageView(
             controller: _pageController,
-            // physics: NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               _buildRegisterPageOne(),
               _buildRegisterPageTwo(),
@@ -910,7 +913,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       return null;
                     },
                     onSaved: (value) => setState(
-                        () => _user.currentWeight = double.parse(value)),
+                      () => _user.weightHistory.add(
+                        WeightEntry(
+                          date: Timestamp.now(),
+                          weight: double.parse(value),
+                        ),
+                      ),
+                    ),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hasFloatingPlaceholder: false,
@@ -1148,8 +1157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       return null;
                     },
                     onSaved: (value) => setState(
-                      () => _user.currentHeight =
-                          Helper().calculateHeightToInches(
+                      () => _user.height = Helper().calculateHeightToInches(
                         heightFeetController.text,
                         heightInchesController.text,
                       ),
@@ -1321,11 +1329,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   _userDataFormKey.currentState.save();
                   _user.displayName = _user.fName + ' ' + _user.lName;
                   _user.sex = _isMale ? 'Male' : 'Female';
-                  _user.save();
                 }
 
                 // Submit registration
                 try {
+                  print(_user);
                   await Provider.of<AuthRepository>(context)
                       .registerWithEmailAndPassword(
                     _user,

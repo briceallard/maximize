@@ -23,8 +23,6 @@ void main() {
     DeviceOrientation.portraitDown,
   ]).then(
     (_) => runApp(
-      // DevicePreview(
-      //   builder: (context) =>
       MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthRepository>.value(
@@ -43,7 +41,6 @@ void main() {
         ),
       ),
     ),
-    // ),
   );
 }
 
@@ -52,7 +49,6 @@ class MaximizeApp extends StatelessWidget {
 
   MaximizeApp() : _router = Router();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
