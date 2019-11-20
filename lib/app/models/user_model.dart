@@ -12,11 +12,13 @@ class User {
   String email;
   String sex;
   String uid;
+  String profileImage;
   bool isAdmin;
   double goalWeight;
   double height;
   Timestamp registerDate;
   Timestamp lastLoggedIn;
+  List<String> photos;
   List<ScheduleEntry> schedule;
   List<WorkoutEntry> workoutHistory;
   List<WeightEntry> weightHistory;
@@ -29,11 +31,13 @@ class User {
     @required this.email,
     @required this.sex,
     @required this.uid,
+    this.profileImage,
     this.isAdmin,
     this.goalWeight,
     this.height,
     this.registerDate,
     this.lastLoggedIn,
+    this.photos,
     this.schedule,
     this.workoutHistory,
     this.weightHistory,
@@ -43,7 +47,12 @@ class User {
   WorkoutEntry get mostRecentWorkout =>
       workoutHistory[workoutHistory.length - 1];
 
-  WeightEntry get currentWeight => weightHistory[weightHistory.length - 1];
+  WeightEntry currentWeight() {
+    if (weightHistory.isEmpty) {
+      return WeightEntry(date: Timestamp.now(), weight: 0.0);
+    }
+    return weightHistory[weightHistory.length - 1];
+  }
 
   MeasurementEntry get currentMeasurement =>
       measurementHistory[measurementHistory.length - 1];
@@ -55,11 +64,13 @@ class User {
         email = data["email"],
         sex = data["sex"],
         uid = data["uid"],
+        profileImage = data['profileImage'],
         isAdmin = data["isAdmin"],
         goalWeight = data["goalWeight"],
         height = data["height"],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
+        photos = data["photos"],
         schedule = User.scheduleListOfMapsToList(
           data["schedule"],
         ),
@@ -77,11 +88,13 @@ class User {
     assert(data['email'] != null, "email is missing");
     assert(data['sex'] != null, "sex is missing");
     assert(data['uid'] != null, "uid is missing");
+    assert(data['profileImage'] != null, 'profileImage is missing');
     assert(data['isAdmin'] != null, "isAdmin is missing");
     assert(data['goalWeight'] != null, "goalWeight is missing");
     assert(data['height'] != null, "height is missing");
     assert(data['registerDate'] != null, "registerDate is missing");
     assert(data['lastLoggedIn'] != null, "lastLoggedIn is missing");
+    assert(data['photos'] != null, "photos is missing");
     assert(data['schedule'] != null, "schedule is missing");
     assert(data['workoutHistory'] != null, "workoutHistory is missing");
     assert(data['weightHistory'] != null, "weightHistory is missing");
@@ -118,11 +131,13 @@ class User {
         email = "No user",
         sex = "No sex",
         uid = "No user",
+        profileImage = "No profile image",
         isAdmin = false,
         goalWeight = 0.0,
         height = 0.0,
         registerDate = Timestamp.now(),
         lastLoggedIn = Timestamp.now(),
+        photos = [],
         schedule = [],
         workoutHistory = [],
         weightHistory = [],
@@ -135,11 +150,13 @@ class User {
         'email': email,
         'sex': sex,
         'uid': uid,
+        'profileImage': profileImage,
         'isAdmin': isAdmin ?? false,
         'goalWeight': goalWeight ?? 0.0,
         'height': height ?? 0.0,
         'registerDate': registerDate,
         'lastLoggedIn': lastLoggedIn,
+        'photos': photos ?? [],
         'schedule': schedule.map((sch) => sch.toMap()).toList(),
         'workoutHistory': workoutHistory.map((wh) => wh.toMap()).toList(),
         'weightHistory': weightHistory.map((wh) => wh.toMap()).toList(),
@@ -154,7 +171,7 @@ class User {
     print('Sex: $sex');
     print('UID: $uid');
     print('Admin: $isAdmin');
-    print('Current Weight: ${currentWeight.weight}');
+    print('Current Weight: ${currentWeight().weight}');
     print('Goal Weight: $goalWeight');
     print('Current Height: $height');
     print('Register Date: $registerDate');
