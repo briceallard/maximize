@@ -7,12 +7,12 @@ import 'package:maximize/app/widgets/custom_appbar.dart';
 import 'package:maximize/app/widgets/custom_fab.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class SchedulePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SchedulePage createState() => _SchedulePage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SchedulePage extends State<SchedulePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Text(
-            'Progress',
+            'Schedule',
             style: TextStyle(
               fontSize: 28.0,
               color: Colors.black,

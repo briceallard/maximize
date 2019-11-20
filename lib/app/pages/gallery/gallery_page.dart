@@ -7,12 +7,12 @@ import 'package:maximize/app/widgets/custom_appbar.dart';
 import 'package:maximize/app/widgets/custom_fab.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class GalleryPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _GalleryPage createState() => _GalleryPage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GalleryPage extends State<GalleryPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Text(
-            'Progress',
+            'Photos',
             style: TextStyle(
               fontSize: 28.0,
               color: Colors.black,

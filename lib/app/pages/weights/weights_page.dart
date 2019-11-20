@@ -7,12 +7,12 @@ import 'package:maximize/app/widgets/custom_appbar.dart';
 import 'package:maximize/app/widgets/custom_fab.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class WeightsPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _WeightsPage createState() => _WeightsPage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _WeightsPage extends State<WeightsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(
-            'My ',
+            'Weight ',
             style: TextStyle(
               fontSize: 28.0,
               color: Colors.red[600],
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Text(
-            'Progress',
+            'History',
             style: TextStyle(
               fontSize: 28.0,
               color: Colors.black,
