@@ -11,6 +11,11 @@ class Constants {
         iconSize: 20.0,
       ),
       DrawerOption(
+        title: 'Schedule',
+        iconData: FontAwesomeIcons.calendarWeek,
+        iconSize: 20.0,
+      ),
+      DrawerOption(
         title: 'Workouts',
         iconData: FontAwesomeIcons.running,
         iconSize: 20.0,

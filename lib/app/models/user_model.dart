@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maximize/app/models/measurement_entry.dart';
+import 'package:maximize/app/models/schedule_entry.dart';
 import 'package:maximize/app/models/weight_entry.dart';
 import 'package:maximize/app/models/workout_entry.dart';
 import 'package:meta/meta.dart';
@@ -16,6 +17,7 @@ class User {
   double height;
   Timestamp registerDate;
   Timestamp lastLoggedIn;
+  List<ScheduleEntry> schedule;
   List<WorkoutEntry> workoutHistory;
   List<WeightEntry> weightHistory;
   List<MeasurementEntry> measurementHistory;
@@ -32,6 +34,7 @@ class User {
     this.height,
     this.registerDate,
     this.lastLoggedIn,
+    this.schedule,
     this.workoutHistory,
     this.weightHistory,
     this.measurementHistory,
@@ -57,13 +60,17 @@ class User {
         height = data["height"],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
+        schedule = User.scheduleListOfMapsToList(
+          data["schedule"],
+        ),
         workoutHistory = User.workoutHistoryListOfMapsToList(
           data["workoutHistory"],
         ),
         weightHistory = User.weightHistoryListOfMapsToList(
           data["weightHistory"],
         ),
-        measurementHistory = data["measurementHistory"] {
+        measurementHistory = User.measurementHistoryListOfMapsToList(
+            data["measurementHistory"]) {
     assert(data['fName'] != null, "fName is missing");
     assert(data['lName'] != null, "lName is missing");
     assert(data['displayName'] != null, "displayName is missing");
@@ -75,6 +82,7 @@ class User {
     assert(data['height'] != null, "height is missing");
     assert(data['registerDate'] != null, "registerDate is missing");
     assert(data['lastLoggedIn'] != null, "lastLoggedIn is missing");
+    assert(data['schedule'] != null, "schedule is missing");
     assert(data['workoutHistory'] != null, "workoutHistory is missing");
     assert(data['weightHistory'] != null, "weightHistory is missing");
     assert(data['measurementHistory'] != null, "measurementHistory is missing");
@@ -83,6 +91,11 @@ class User {
   /// Starting with a [LinkedHashMap], iterate through the list, converting to
   /// a regular [Map] which is used to create an iterable [List<dynamic>].
   /// Lastly, cast the dynamic list to a [List<WeightEntry>].
+  static List<ScheduleEntry> scheduleListOfMapsToList(map) => map
+      .map((sch) => ScheduleEntry.fromMap(Map<String, dynamic>.from(sch)))
+      .toList()
+      .cast<ScheduleEntry>();
+
   static List<WorkoutEntry> workoutHistoryListOfMapsToList(map) => map
       .map((wh) => WorkoutEntry.fromMap(Map<String, dynamic>.from(wh)))
       .toList()
@@ -110,6 +123,7 @@ class User {
         height = 0.0,
         registerDate = Timestamp.now(),
         lastLoggedIn = Timestamp.now(),
+        schedule = [],
         workoutHistory = [],
         weightHistory = [],
         measurementHistory = [];
@@ -126,6 +140,7 @@ class User {
         'height': height ?? 0.0,
         'registerDate': registerDate,
         'lastLoggedIn': lastLoggedIn,
+        'schedule': schedule.map((sch) => sch.toMap()).toList(),
         'workoutHistory': workoutHistory.map((wh) => wh.toMap()).toList(),
         'weightHistory': weightHistory.map((wh) => wh.toMap()).toList(),
         'measurementHistory':
@@ -144,6 +159,7 @@ class User {
     print('Current Height: $height');
     print('Register Date: $registerDate');
     print('Last Logged In: $lastLoggedIn');
+    print('Last Logged In: $schedule');
     print('Workout History: $workoutHistory');
     print('Weight History: $weightHistory');
     print('User Measurements: $measurementHistory');

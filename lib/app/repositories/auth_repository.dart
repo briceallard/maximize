@@ -45,7 +45,8 @@ class AuthRepository with ChangeNotifier {
       }
 
       user.save();
-      _status = Status.Unauthenticated;
+      _status = Status.Authenticated;
+      notifyListeners();
     } catch (e) {
       _status = Status.Unauthenticated;
       notifyListeners();
@@ -80,6 +81,9 @@ class AuthRepository with ChangeNotifier {
               email: email, password: password))
           .user;
       print('User ${firebaseUser.uid} log in: SUCCESS');
+
+      _status = Status.Authenticated;
+      notifyListeners();
     } catch (e) {
       _status = Status.Unauthenticated;
       notifyListeners();

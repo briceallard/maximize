@@ -7,6 +7,9 @@ class WorkoutEntry {
   final double weight;
   final Timestamp date;
 
+  /// duration
+  /// sets
+
   WorkoutEntry({
     @required this.title,
     @required this.repititions,

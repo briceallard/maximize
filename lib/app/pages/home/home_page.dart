@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/app_drawer.dart';
 import 'package:maximize/app/widgets/custom_appbar.dart';
 import 'package:maximize/app/widgets/custom_fab.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    User _user = Provider.of<User>(context);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
       child: Scaffold(
@@ -25,10 +29,85 @@ class _HomePageState extends State<HomePage> {
         drawer: AppDrawer(scaffoldKey: _scaffoldKey),
         floatingActionButton: CustomFab(),
         body: SafeArea(
-          child: Center(
-            child: Text('Home Page'),
+          child: ListView(
+            padding: EdgeInsets.all(16.0),
+            children: <Widget>[
+              _buildTitle(),
+              Container(
+                margin: EdgeInsets.only(top: 25.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '${_user.displayName}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Sex: ${_user.sex}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Current Weight: ${_user.currentWeight.weight}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Goal Weight: ${_user.goalWeight}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Height: ${_user.height}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'My ',
+            style: TextStyle(
+              fontSize: 28.0,
+              color: Colors.red[600],
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          Text(
+            'Progress',
+            style: TextStyle(
+              fontSize: 28.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
       ),
     );
   }

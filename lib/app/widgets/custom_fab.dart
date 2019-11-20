@@ -18,10 +18,11 @@ class _CustomFabState extends State<CustomFab>
   bool isOpened = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
+  Animation<double> _animatedOpacity;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
-  double _fabHeight = 56.0;
+  double _fabHeight = 48.0;
 
   @override
   void initState() {
@@ -39,7 +40,15 @@ class _CustomFabState extends State<CustomFab>
 
     _buttonColor = ColorTween(
       begin: Colors.red[600],
-      end: Colors.grey[700],
+      end: Colors.grey[900],
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(0.00, 1.00, curve: Curves.linear),
+    ));
+
+    _animatedOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(0.00, 1.00, curve: Curves.linear),
@@ -65,12 +74,14 @@ class _CustomFabState extends State<CustomFab>
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Transform(
           transform: Matrix4.translationValues(
             0.0,
-            _translateButton.value * 3.0,
+            _translateButton.value * 4.0,
             0.0,
           ),
           child: weight(),
@@ -78,10 +89,18 @@ class _CustomFabState extends State<CustomFab>
         Transform(
           transform: Matrix4.translationValues(
             0.0,
-            _translateButton.value * 2.0,
+            _translateButton.value * 3.0,
             0.0,
           ),
           child: workout(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 2.0,
+            0.0,
+          ),
+          child: schedule(),
         ),
         Transform(
           transform: Matrix4.translationValues(
@@ -97,58 +116,181 @@ class _CustomFabState extends State<CustomFab>
   }
 
   Widget weight() {
-    return Container(
-      child: FloatingActionButton(
-        heroTag: 'Btn1',
-        elevation: 3.0,
-        onPressed: null,
-        tooltip: 'Weight',
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 4.0, left: 0.0),
-          child: Icon(
-            FontAwesomeIcons.weight,
-            size: 16.0,
-            color: Colors.white,
+    return AnimatedOpacity(
+      opacity: _animatedOpacity.value,
+      duration:
+          isOpened ? Duration(milliseconds: 200) : Duration(milliseconds: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            'Add weight',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              shadows: [
+                Shadow(
+                  color: Colors.black,
+                  blurRadius: 0.8,
+                  offset: Offset(0.0, 0.0),
+                ),
+              ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(right: 5.0, left: 10.0),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: 'Btn1',
+              elevation: isOpened ? 3.0 : 0.0,
+              onPressed: null,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 4.0),
+                child: Icon(
+                  FontAwesomeIcons.weight,
+                  size: 18.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget workout() {
-    return Container(
-      child: FloatingActionButton(
-        heroTag: 'Btn2',
-        elevation: 3.0,
-        onPressed: null,
-        tooltip: 'Workout',
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 3.0, right: 3.0),
-          child: Icon(
-            FontAwesomeIcons.dumbbell,
-            size: 16.0,
-            color: Colors.white,
+    return AnimatedOpacity(
+      opacity: _animatedOpacity.value,
+      duration:
+          isOpened ? Duration(milliseconds: 200) : Duration(milliseconds: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            'Add a workout',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              shadows: [
+                Shadow(
+                  color: Colors.black,
+                  blurRadius: 0.8,
+                  offset: Offset(0.0, 0.0),
+                ),
+              ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(right: 5.0, left: 10.0),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: 'Btn2',
+              elevation: isOpened ? 3.0 : 0.0,
+              onPressed: null,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 2.0, right: 4.0),
+                child: Icon(
+                  FontAwesomeIcons.dumbbell,
+                  size: 18.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget schedule() {
+    return AnimatedOpacity(
+      opacity: _animatedOpacity.value,
+      duration:
+          isOpened ? Duration(milliseconds: 200) : Duration(milliseconds: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            'Create event',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              shadows: [
+                Shadow(
+                  color: Colors.black,
+                  blurRadius: 0.8,
+                  offset: Offset(0.0, 0.0),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 5.0, left: 10.0),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: 'Btn3',
+              elevation: isOpened ? 3.0 : 0.0,
+              onPressed: null,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 3.0, left: 0.0),
+                child: Icon(
+                  FontAwesomeIcons.calendarWeek,
+                  size: 18.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget image() {
-    return Container(
-      child: FloatingActionButton(
-        heroTag: 'Btn3',
-        elevation: 3.0,
-        onPressed: null,
-        tooltip: 'Photo',
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 3.0, left: 2.0),
-          child: Icon(
-            FontAwesomeIcons.fileImage,
-            size: 18.0,
-            color: Colors.white,
+    return AnimatedOpacity(
+      opacity: _animatedOpacity.value,
+      duration:
+          isOpened ? Duration(milliseconds: 200) : Duration(milliseconds: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            'Take a photo',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              shadows: [
+                Shadow(
+                  color: Colors.black,
+                  blurRadius: 0.8,
+                  offset: Offset(0.0, 0.0),
+                ),
+              ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(right: 5.0, left: 10.0),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: 'Btn4',
+              elevation: isOpened ? 3.0 : 0.0,
+              onPressed: null,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 3.0, left: 2.0),
+                child: Icon(
+                  FontAwesomeIcons.fileImage,
+                  size: 18.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -156,11 +298,11 @@ class _CustomFabState extends State<CustomFab>
   Widget toggle() {
     return Container(
       child: FloatingActionButton(
-        heroTag: 'Btn4',
+        heroTag: 'Btn5',
         elevation: 3.0,
         backgroundColor: _buttonColor.value,
         onPressed: animate,
-        tooltip: 'Toggle',
+        tooltip: 'Add Item',
         child: AnimatedIcon(
           icon: AnimatedIcons.menu_close,
           size: 20.0,

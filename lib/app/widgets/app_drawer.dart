@@ -16,7 +16,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.65,
-      padding: EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.only(top: 60.0),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
