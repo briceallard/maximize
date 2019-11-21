@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:maximize/app/utils/constants/pages.dart';
 
 class CustomFab extends StatefulWidget {
   final Function() onPressed;
@@ -279,7 +280,7 @@ class _CustomFabState extends State<CustomFab>
               mini: true,
               heroTag: 'Btn4',
               elevation: isOpened ? 3.0 : 0.0,
-              onPressed: null,
+              onPressed: () => Navigator.of(context).pushNamed(Pages.addPhoto),
               child: Padding(
                 padding: EdgeInsets.only(bottom: 3.0, left: 2.0),
                 child: Icon(

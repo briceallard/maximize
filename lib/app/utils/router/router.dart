@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:maximize/app/pages/addPages/add_photo.dart';
 import 'package:maximize/app/pages/forgotPassword/forgot_password.dart';
 import 'package:maximize/app/pages/gallery/gallery_page.dart';
 import 'package:maximize/app/pages/home/home_page.dart';
@@ -37,6 +38,8 @@ class Router {
         return _buildSlideLeftRoute(MeasurementsPage());
       case Pages.gallery:
         return _buildSlideLeftRoute(GalleryPage());
+      case Pages.addPhoto:
+        return _buildSlideTopRoute(AddPhotoPage());
       default:
         return null;
     }
@@ -50,9 +53,9 @@ class Router {
   //   return new SlideRightRoute(page: page);
   // }
 
-  // SlideTopRoute _buildSlideTopRoute(Widget page) {
-  //   return new SlideTopRoute(page: page);
-  // }
+  SlideTopRoute _buildSlideTopRoute(Widget page) {
+    return new SlideTopRoute(page: page);
+  }
 
   SlideBottomRoute _buildSlideBottomRoute(Widget page) {
     return new SlideBottomRoute(page: page);

@@ -2,6 +2,8 @@ class Resources {
   static const String logo = 'assets/images/logo.png';
   static const String splash_bg = 'assets/images/splash_bg.jpeg';
   static const String default_profile = 'assets/images/default_profile.png';
+  static const String camera_placeholder =
+      'assets/images/camera_placeholder.png';
 }
 
 class Helper {

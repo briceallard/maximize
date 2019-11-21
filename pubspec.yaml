@@ -38,6 +38,7 @@ dependencies:
   device_preview:
   email_validator:
   flutter_datetime_picker:
+  image_picker:
 
 dev_dependencies:
   flutter_test:

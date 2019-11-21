@@ -9,4 +9,5 @@ class Pages {
   static const String weights = '/weights';
   static const String measurements = '/measurements';
   static const String gallery = '/gallery';
+  static const String addPhoto = '/addPhoto';
 }
