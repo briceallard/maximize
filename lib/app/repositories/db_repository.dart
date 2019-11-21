@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/utils/constants/resources.dart';
 
 class DatabaseService with ChangeNotifier {
   // final FirebaseStorage _storage = FirebaseStorage.instance;
   final Firestore _db;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   DatabaseService.instance() : _db = Firestore.instance;
 
@@ -33,6 +38,25 @@ class DatabaseService with ChangeNotifier {
     } catch (e) {
       print(e);
       rethrow;
+    }
+  }
+
+  Future<String> uploadProfilePicture(String uid, File image) async {
+    if (image != null) {
+      try {
+        String filename = DateTime.now().millisecondsSinceEpoch.toString();
+
+        StorageReference ref = _storage.ref().child('images/$uid/$filename.jpg');
+        StorageUploadTask uploadTask = ref.putFile(image);
+        StorageTaskSnapshot taskSnapshot = (await uploadTask.onComplete);
+
+        return (await taskSnapshot.ref.getDownloadURL());
+      } catch (e) {
+        print(e);
+        rethrow;
+      }
+    } else {
+      return Resources.default_profile;
     }
   }
 

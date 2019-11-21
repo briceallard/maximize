@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[],
+                  children: <Widget>[Text('${_user.currentWeight().weight}')],
                 ),
               )
             ],
