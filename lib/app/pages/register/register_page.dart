@@ -1342,36 +1342,43 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   Navigator.of(context).pop();
                 } catch (e) {
-                  if (e.code == 'ERROR_WEAK_PASSWORD') {
-                    _scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content:
-                            Text('Create a stronger password and try again.'),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  } else if (e.code == 'ERROR_INVALID_EMAIL') {
-                    _scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content: Text('Email address not in valid format.'),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  } else if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
-                    _scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content: Text('Email address is already registered.'),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  } else {
-                    _scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content: Text(e.message),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  }
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      content: Text(e.message),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+
+                  // if (e.code == 'ERROR_WEAK_PASSWORD') {
+                  //   _scaffoldKey.currentState.showSnackBar(
+                  //     SnackBar(
+                  //       content:
+                  //           Text('Create a stronger password and try again.'),
+                  //       duration: Duration(seconds: 3),
+                  //     ),
+                  //   );
+                  // } else if (e.code == 'ERROR_INVALID_EMAIL') {
+                  //   _scaffoldKey.currentState.showSnackBar(
+                  //     SnackBar(
+                  //       content: Text('Email address not in valid format.'),
+                  //       duration: Duration(seconds: 3),
+                  //     ),
+                  //   );
+                  // } else if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+                  //   _scaffoldKey.currentState.showSnackBar(
+                  //     SnackBar(
+                  //       content: Text('Email address is already registered.'),
+                  //       duration: Duration(seconds: 3),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   _scaffoldKey.currentState.showSnackBar(
+                  //     SnackBar(
+                  //       content: Text(e.message),
+                  //       duration: Duration(seconds: 3),
+                  //     ),
+                  //   );
+                  // }
                 }
               }
             },

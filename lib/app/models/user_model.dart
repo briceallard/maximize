@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maximize/app/models/measurement_entry.dart';
+import 'package:maximize/app/models/photo_entry.dart';
 import 'package:maximize/app/models/schedule_entry.dart';
 import 'package:maximize/app/models/weight_entry.dart';
 import 'package:maximize/app/models/workout_entry.dart';
@@ -18,7 +19,7 @@ class User {
   double height;
   Timestamp registerDate;
   Timestamp lastLoggedIn;
-  List<String> photos;
+  List<PhotoEntry> photos;
   List<ScheduleEntry> schedule;
   List<WorkoutEntry> workoutHistory;
   List<WeightEntry> weightHistory;
@@ -43,6 +44,8 @@ class User {
     this.weightHistory,
     this.measurementHistory,
   });
+
+  PhotoEntry get mostRecentPhoto => photos[photos.length - 1];
 
   WorkoutEntry get mostRecentWorkout =>
       workoutHistory[workoutHistory.length - 1];
@@ -70,7 +73,9 @@ class User {
         height = data["height"],
         registerDate = data["registerDate"],
         lastLoggedIn = data["lastLoggedIn"],
-        photos = data["photos"],
+        photos = User.photosListOfMapsToList(
+          data["photos"],
+        ),
         schedule = User.scheduleListOfMapsToList(
           data["schedule"],
         ),
@@ -81,7 +86,8 @@ class User {
           data["weightHistory"],
         ),
         measurementHistory = User.measurementHistoryListOfMapsToList(
-            data["measurementHistory"]) {
+          data["measurementHistory"],
+        ) {
     assert(data['fName'] != null, "fName is missing");
     assert(data['lName'] != null, "lName is missing");
     assert(data['displayName'] != null, "displayName is missing");
@@ -104,6 +110,12 @@ class User {
   /// Starting with a [LinkedHashMap], iterate through the list, converting to
   /// a regular [Map] which is used to create an iterable [List<dynamic>].
   /// Lastly, cast the dynamic list to a [List<WeightEntry>].
+
+  static List<PhotoEntry> photosListOfMapsToList(map) => map
+      .map((ph) => PhotoEntry.fromMap(Map<String, dynamic>.from(ph)))
+      .toList()
+      .cast<PhotoEntry>();
+
   static List<ScheduleEntry> scheduleListOfMapsToList(map) => map
       .map((sch) => ScheduleEntry.fromMap(Map<String, dynamic>.from(sch)))
       .toList()
@@ -156,7 +168,7 @@ class User {
         'height': height ?? 0.0,
         'registerDate': registerDate,
         'lastLoggedIn': lastLoggedIn,
-        'photos': photos ?? [],
+        'photos': photos.map((ph) => ph.toMap()).toList(),
         'schedule': schedule.map((sch) => sch.toMap()).toList(),
         'workoutHistory': workoutHistory.map((wh) => wh.toMap()).toList(),
         'weightHistory': weightHistory.map((wh) => wh.toMap()).toList(),

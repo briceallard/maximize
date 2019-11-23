@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:maximize/app/models/photo_entry.dart';
 import 'package:maximize/app/models/user_model.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
+import 'package:provider/provider.dart';
 
 class DatabaseService with ChangeNotifier {
   // final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -41,23 +43,29 @@ class DatabaseService with ChangeNotifier {
     }
   }
 
-  Future<String> uploadProfilePicture(String uid, File image) async {
-    if (image != null) {
-      try {
-        String filename = DateTime.now().millisecondsSinceEpoch.toString();
+  Future<void> uploadImage(User user, FirebaseUser fbUser, File image) async {
+    try {
+      String filename = DateTime.now().millisecondsSinceEpoch.toString();
 
-        StorageReference ref = _storage.ref().child('images/$uid/$filename.jpg');
-        StorageUploadTask uploadTask = ref.putFile(image);
-        StorageTaskSnapshot taskSnapshot = (await uploadTask.onComplete);
+      StorageReference ref =
+          _storage.ref().child('images/${user.uid}/$filename.jpg');
+      StorageUploadTask uploadTask = ref.putFile(image);
+      StorageTaskSnapshot taskSnapshot = (await uploadTask.onComplete);
 
-        return (await taskSnapshot.ref.getDownloadURL());
-      } catch (e) {
-        print(e);
-        rethrow;
-      }
-    } else {
-      return Resources.default_profile;
+      String _fileUrl = await taskSnapshot.ref.getDownloadURL();
+
+      user.photos.add(PhotoEntry(
+        date: Timestamp.now(),
+        fileUrl: _fileUrl,
+      ));
+
+      await updateParent(fbUser, user);
+    } catch (e) {
+      print(e);
+      rethrow;
     }
+
+    return null;
   }
 
   Future<void> updateTopLevel<T extends dynamic>(

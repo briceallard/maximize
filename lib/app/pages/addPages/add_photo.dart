@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/repositories/auth_repository.dart';
+import 'package:maximize/app/repositories/db_repository.dart';
 import 'package:maximize/app/repositories/photo_repository.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
@@ -19,6 +22,7 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _photoService = PhotoService();
+  final _db = DatabaseService.instance();
 
   File _image;
 
@@ -34,7 +38,8 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
 
   @override
   Widget build(BuildContext context) {
-    User _user = Provider.of<User>(context);
+    User user = Provider.of<User>(context);
+    FirebaseUser fbUser = Provider.of<AuthRepository>(context).firebaseUser;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
@@ -43,13 +48,15 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
         appBar: CustomRegisterAppBar(
           actions: <Widget>[
             FlatButton(
-              onPressed: () {
+              onPressed: () async {
                 _image == null
                     ? _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Text('No image to save.'),
                         duration: Duration(seconds: 3),
                       ))
-                    : null;
+                    : await _db
+                        .uploadImage(user, fbUser, _image)
+                        .then((_) => Navigator.of(context).pop());
               },
               child: Text(
                 'Save',

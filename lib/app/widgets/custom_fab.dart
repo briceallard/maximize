@@ -280,7 +280,10 @@ class _CustomFabState extends State<CustomFab>
               mini: true,
               heroTag: 'Btn4',
               elevation: isOpened ? 3.0 : 0.0,
-              onPressed: () => Navigator.of(context).pushNamed(Pages.addPhoto),
+              onPressed: () {
+                animate();
+                Navigator.of(context).pushNamed(Pages.addPhoto);
+              },
               child: Padding(
                 padding: EdgeInsets.only(bottom: 3.0, left: 2.0),
                 child: Icon(
