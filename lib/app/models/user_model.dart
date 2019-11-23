@@ -14,6 +14,8 @@ class User {
   String sex;
   String uid;
   String profileImage;
+  String pin;
+  bool securePhotos;
   bool isAdmin;
   double goalWeight;
   double height;
@@ -33,6 +35,8 @@ class User {
     @required this.sex,
     @required this.uid,
     this.profileImage,
+    this.pin,
+    this.securePhotos,
     this.isAdmin,
     this.goalWeight,
     this.height,
@@ -68,6 +72,8 @@ class User {
         sex = data["sex"],
         uid = data["uid"],
         profileImage = data['profileImage'],
+        pin = data['pin'],
+        securePhotos = data['securePhotos'],
         isAdmin = data["isAdmin"],
         goalWeight = data["goalWeight"],
         height = data["height"],
@@ -95,6 +101,8 @@ class User {
     assert(data['sex'] != null, "sex is missing");
     assert(data['uid'] != null, "uid is missing");
     assert(data['profileImage'] != null, 'profileImage is missing');
+    assert(data['pin'] != null, 'pin is missing');
+    assert(data['securePhotos'] != null, 'securePhotos is missing');
     assert(data['isAdmin'] != null, "isAdmin is missing");
     assert(data['goalWeight'] != null, "goalWeight is missing");
     assert(data['height'] != null, "height is missing");
@@ -144,6 +152,8 @@ class User {
         sex = "No sex",
         uid = "No user",
         profileImage = "No profile image",
+        pin = "No pin",
+        securePhotos = false,
         isAdmin = false,
         goalWeight = 0.0,
         height = 0.0,
@@ -163,6 +173,8 @@ class User {
         'sex': sex,
         'uid': uid,
         'profileImage': profileImage,
+        'pin': pin,
+        'securePhotos': securePhotos ?? false,
         'isAdmin': isAdmin ?? false,
         'goalWeight': goalWeight ?? 0.0,
         'height': height ?? 0.0,
