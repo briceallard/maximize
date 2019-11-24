@@ -18,4 +18,8 @@ class PhotoEntry {
   PhotoEntry.fromMap(Map<String, dynamic> map)
       : date = new Timestamp.fromMillisecondsSinceEpoch(map['date']),
         fileUrl = map['fileUrl'];
+
+  PhotoEntry.initial()
+      : date = Timestamp.now(),
+        fileUrl = 'No Photo';
 }
