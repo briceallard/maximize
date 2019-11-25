@@ -88,4 +88,24 @@ class DatabaseService with ChangeNotifier {
       .collection('users')
       .orderBy("displayName", descending: false)
       .snapshots();
+
+  Stream<List<PhotoEntry>> getUserPhotosStream(User user) {
+    if (user == null) {
+      print('Empty stream');
+      return Stream.empty();
+    }
+    try {
+      return _db
+          .collection('users')
+          .document(user.uid)
+          .collection('photos')
+          .snapshots()
+          .map((list) => list.documents
+              .map((doc) => PhotoEntry.fromMap(doc.data))
+              .toList());
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 }

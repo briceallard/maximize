@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:maximize/app/models/photo_entry.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/repositories/db_repository.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/app_drawer.dart';
 import 'package:maximize/app/widgets/custom_appbar.dart';
@@ -19,6 +22,10 @@ class _GalleryPage extends State<GalleryPage> {
   final TextEditingController _pin2 = TextEditingController();
   final TextEditingController _pin3 = TextEditingController();
   final TextEditingController _pin4 = TextEditingController();
+
+  DatabaseService _db = DatabaseService.instance();
+  Stream _userPhotos;
+  Stream _allUsersStream;
 
   bool _verified;
   User _user;
@@ -61,6 +68,9 @@ class _GalleryPage extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     _user = Provider.of<User>(context);
+    _allUsersStream = _db.getAllUsersStream();
+    _userPhotos = _db.getUserPhotosStream(_user);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
       child: Scaffold(
@@ -78,20 +88,29 @@ class _GalleryPage extends State<GalleryPage> {
   }
 
   Widget _galleryPage() {
-    return ListView(
-      padding: EdgeInsets.all(16.0),
-      children: <Widget>[
-        _buildTitle(),
-        Container(
-          margin: EdgeInsets.only(top: 25.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[],
-          ),
-        )
-      ],
+    return StreamBuilder(
+      stream: _userPhotos,
+      builder: (context, snapshot) {
+        print(snapshot);
+
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
+          return Container(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        } else {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              print(snapshot.data);
+
+              DocumentSnapshot photo = snapshot.data.documents[index];
+              // return card with photo details here
+            },
+          );
+        }
+      },
     );
   }
 
