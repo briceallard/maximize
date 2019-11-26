@@ -22,7 +22,10 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _photoService = PhotoService();
-  final _db = DatabaseService.instance();
+
+  User _user;
+  DatabaseService _db;
+  FirebaseUser _fbUser;
 
   File _image;
 
@@ -38,8 +41,9 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
-    FirebaseUser fbUser = Provider.of<AuthRepository>(context).firebaseUser;
+    _user = Provider.of<User>(context);
+    _db = Provider.of<DatabaseService>(context);
+    _fbUser = Provider.of<AuthRepository>(context).firebaseUser;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
@@ -55,7 +59,7 @@ class _AddPhotoPageState extends State<AddPhotoPage> {
                         duration: Duration(seconds: 3),
                       ))
                     : await _db
-                        .uploadImage(user, fbUser, _image)
+                        .uploadImage(_user, _fbUser, _image)
                         .then((_) => Navigator.of(context).pop());
               },
               child: Text(

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maximize/app/models/photo_entry.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/repositories/db_repository.dart';
 import 'package:maximize/app/utils/constants/theme_data.dart';
 import 'package:maximize/app/widgets/app_drawer.dart';
@@ -23,12 +25,10 @@ class _GalleryPage extends State<GalleryPage> {
   final TextEditingController _pin3 = TextEditingController();
   final TextEditingController _pin4 = TextEditingController();
 
-  DatabaseService _db = DatabaseService.instance();
-  Stream _userPhotos;
-  Stream _allUsersStream;
-
   bool _verified;
   User _user;
+  DatabaseService _db;
+  FirebaseUser _fbUser;
 
   @override
   void initState() {
@@ -68,8 +68,8 @@ class _GalleryPage extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     _user = Provider.of<User>(context);
-    _allUsersStream = _db.getAllUsersStream();
-    _userPhotos = _db.getUserPhotosStream(_user);
+    _db = Provider.of<DatabaseService>(context);
+    _fbUser = Provider.of<AuthRepository>(context).firebaseUser;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: CustomTheme.systemTheme,
@@ -88,25 +88,23 @@ class _GalleryPage extends State<GalleryPage> {
   }
 
   Widget _galleryPage() {
-    return StreamBuilder(
-      stream: _userPhotos,
+    return StreamBuilder<List<PhotoEntry>>(
+      stream: _db.getUserPhotosStream(_fbUser),
       builder: (context, snapshot) {
-        print(snapshot);
-
         if (snapshot.connectionState == ConnectionState.waiting ||
             !snapshot.hasData) {
-          return Container(
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return Container(child: Center(child: CircularProgressIndicator()));
         } else {
+          print(snapshot.data);
           return ListView.builder(
-            scrollDirection: Axis.vertical,
+            scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
+            itemCount: _user.photos.length,
             itemBuilder: (context, index) {
-              print(snapshot.data);
-
-              DocumentSnapshot photo = snapshot.data.documents[index];
-              // return card with photo details here
+              var photo = snapshot; // For debugging
+              print(photo); // For dubigging
+              // Create card with photo
+              return Container();
             },
           );
         }

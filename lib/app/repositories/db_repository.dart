@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:maximize/app/models/photo_entry.dart';
 import 'package:maximize/app/models/user_model.dart';
+import 'package:maximize/app/repositories/auth_repository.dart';
 import 'package:maximize/app/utils/constants/resources.dart';
 import 'package:provider/provider.dart';
 
@@ -89,15 +90,15 @@ class DatabaseService with ChangeNotifier {
       .orderBy("displayName", descending: false)
       .snapshots();
 
-  Stream<List<PhotoEntry>> getUserPhotosStream(User user) {
-    if (user == null) {
-      print('Empty stream');
+  Stream<List<PhotoEntry>> getUserPhotosStream(FirebaseUser fbUser) {
+    print(fbUser);
+    if (fbUser == null) {
       return Stream.empty();
     }
     try {
       return _db
           .collection('users')
-          .document(user.uid)
+          .document(fbUser.uid)
           .collection('photos')
           .snapshots()
           .map((list) => list.documents
